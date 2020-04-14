@@ -3,10 +3,11 @@ var canvas = document.querySelector('canvas');
 
 var c = canvas.getContext('2d');
 
+var coloursave = "black";
 var colour = "black";
-var linewidth = 3;
-var eraserwidth = 3;
-var brushwidth = 3;
+var linewidth = 7;
+var eraserwidth = 7;
+var brushwidth = 7;
 
 resize();
 
@@ -41,49 +42,73 @@ function getColour(divElement){
     globalCompositeOperation = 'source-over';
     switch(divElement.id){
         case "green":
+            coloursave = "green";
             colour = "green";
             break;
         case "blue":
+            coloursave = "blue";
             colour = "blue";
             break;
         case "red":
+            coloursave = "red";
             colour = "red";
             break;
         case "yellow":
+            coloursave = "yellow";
             colour = "yellow";
             break;
         case "orange":
+            coloursave = "orange";
             colour = "orange";
             break;
         case "black":
+            coloursave = "black";
             colour = "black";
             break;
-        case "white1":
+        case "white7":
             colour = "white";
             eraserwidth = 7;
             break;
-        case "white2":
+        case "white17":
             colour = "white";
             eraserwidth = 17;
             break;
-        case "white3":
+        case "white27":
             colour = "white";
             eraserwidth = 27;
             break;
     }
 
-    if (divElement.id == "white1" || divElement.id == "white2" || divElement.id == "white3"){
+    clearboxes();
+
+    if (divElement.id == "white7" || divElement.id == "white17" || divElement.id == "white27"){
+        document.getElementById(divElement.id).style.borderColor = "red";
         linewidth = eraserwidth;
     }else{
+        document.getElementById("width".concat(brushwidth)).style.borderColor = "red";
         linewidth = brushwidth;
     }
 
     document.getElementById("CurrentColour").style.background = colour;
+    
 
 }
 
+function clearboxes(){
+
+    document.getElementById("white7").style.borderColor = "black";
+    document.getElementById("white17").style.borderColor = "black";
+    document.getElementById("white27").style.borderColor = "black";
+    document.getElementById("width7").style.borderColor = "white";
+    document.getElementById("width17").style.borderColor = "white";
+    document.getElementById("width27").style.borderColor = "white";
+}
+
 function setBrushWidth(divElement){
-    console.log("Changing color to: ".concat(divElement.id));
+    console.log("Setting Width to: ".concat(divElement.id));
+
+    clearboxes();
+    document.getElementById(divElement.id).style.borderColor = "red";
 
     switch(divElement.id){
         case "width7":
@@ -98,6 +123,10 @@ function setBrushWidth(divElement){
     }
 
     linewidth = brushwidth;
+    colour = coloursave;
+    document.getElementById("CurrentColour").style.background = colour;
+
+
 
 }
 
