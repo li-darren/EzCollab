@@ -158,6 +158,4 @@ function draw(e){
     c.lineTo(pos.x, pos.y);
 
     c.stroke();
-
-
 }
