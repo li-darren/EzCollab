@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Canvas Resize</title>
+    <style type="text/css">
+        canvas{
+            border: 1px solid black;
+        }
+
+        body{
+            margin: 0;
+            background-color: yellow;
+        }
+    </style>
+
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+
+</head>
+<body>
+    <canvas></canvas>
+        <div style="position:absolute;top:12%;left:93%;">Choose Color</div>
+        <div style="position:absolute;top:15%;left:94%;width:10px;height:10px;background:green;" id="green" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:15%;left:95%;width:10px;height:10px;background:blue;" id="blue" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:15%;left:96%;width:10px;height:10px;background:red;" id="red" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:17%;left:94%;width:10px;height:10px;background:yellow;" id="yellow" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:17%;left:95%;width:10px;height:10px;background:orange;" id="orange" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:17%;left:96%;width:10px;height:10px;background:black;" id="black" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:20%;left:93%;">Current Color</div>
+        <div style="position:absolute;top:22.5%;left:95%;width:10px;height:10px;background:black; border-color: black; border: 2px solid" id="CurrentColour"></div>
+        <div style="position:absolute;top:25%;left:93%;">Width</div>
+        <div style="position:absolute;top:28.5%;left:93%;width:5px;height:5px;background:black;border:2px solid; border-color: red" id="width7" onclick="setBrushWidth(this)"></div>
+        <div style="position:absolute;top:28%;left:94%;width:15px;height:15px;background:black;border:2px solid; border-color: white" id="width17" onclick="setBrushWidth(this)"></div>
+        <div style="position:absolute;top:27.5%;left:95.5%;width:25px;height:25px;background:black;border:2px solid; border-color: white" id="width27" onclick="setBrushWidth(this)"></div>
+        <div style="position:absolute;top:31%;left:93%;">Eraser</div>
+        <div style="position:absolute;top:34.5%;left:93%;width:5px;height:5px;background:white;border:2px solid; border-color: black" id="white7" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:34%;left:94%;width:15px;height:15px;background:white;border:2px solid; border-color: black" id="white17" onclick="getColour(this)"></div>
+        <div style="position:absolute;top:33.5%;left:95.5%;width:25px;height:25px;background:white;border:2px solid; border-color: black" id="white27" onclick="getColour(this)"></div>
+        <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;left:92%;">
+        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:95%;">
+        <script src="canvas.js"></script>
+</body>
+</html>
