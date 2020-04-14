@@ -1,2 +1,2 @@
-# AmazonPriceTracker
-Scrapes Amazon Price and stores into Database
+#Collaborate Notes
+Work together to collaborate and work on notes!
