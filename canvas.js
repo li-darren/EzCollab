@@ -5,6 +5,8 @@ var c = canvas.getContext('2d');
 
 var colour = "black";
 var linewidth = 3;
+var eraserwidth = 3;
+var brushwidth = 3;
 
 resize();
 
@@ -58,30 +60,47 @@ function getColour(divElement){
             break;
         case "white1":
             colour = "white";
+            eraserwidth = 7;
             break;
         case "white2":
             colour = "white";
+            eraserwidth = 17;
             break;
         case "white3":
             colour = "white";
+            eraserwidth = 27;
             break;
     }
 
-    if (divElement.id == "white1"){
-        linewidth = 7;
-    }
-    else if (divElement.id == "white2"){
-        linewidth = 17;
-    }else if (divElement.id == "white3"){
-        linewidth = 27;
+    if (divElement.id == "white1" || divElement.id == "white2" || divElement.id == "white3"){
+        linewidth = eraserwidth;
     }else{
-        linewidth = 3;
+        linewidth = brushwidth;
     }
 
     document.getElementById("CurrentColour").style.background = colour;
 
+}
+
+function setBrushWidth(divElement){
+    console.log("Changing color to: ".concat(divElement.id));
+
+    switch(divElement.id){
+        case "width7":
+            brushwidth = 7;
+            break;
+        case "width17":
+            brushwidth = 17;
+            break;
+        case "width27":
+            brushwidth = 27;
+            break;
+    }
+
+    linewidth = brushwidth;
 
 }
+
 
 function setPosition(e) {
     pos.x = e.clientX;
