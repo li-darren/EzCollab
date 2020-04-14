@@ -39,7 +39,6 @@ function save() {
 
 function getColour(divElement){
     console.log("Changing color to: ".concat(divElement.id));
-    globalCompositeOperation = 'source-over';
     switch(divElement.id){
         case "green":
             coloursave = "green";
@@ -83,9 +82,11 @@ function getColour(divElement){
 
     if (divElement.id == "white7" || divElement.id == "white17" || divElement.id == "white27"){
         document.getElementById(divElement.id).style.borderColor = "red";
+        c.globalCompositeOperation = 'destination-out';
         linewidth = eraserwidth;
     }else{
         document.getElementById("width".concat(brushwidth)).style.borderColor = "red";
+        c.globalCompositeOperation = 'source-over';
         linewidth = brushwidth;
     }
 
@@ -104,9 +105,9 @@ function clearboxes(){
     document.getElementById("width27").style.borderColor = "white";
 }
 
-function setBrushWidth(divElement){
+function setBrushWidth(divElement){ //this is for any colour that is not white
     console.log("Setting Width to: ".concat(divElement.id));
-
+    c.globalCompositeOperation = 'source-over';
     clearboxes();
     document.getElementById(divElement.id).style.borderColor = "red";
 
@@ -125,9 +126,6 @@ function setBrushWidth(divElement){
     linewidth = brushwidth;
     colour = coloursave;
     document.getElementById("CurrentColour").style.background = colour;
-
-
-
 }
 
 
