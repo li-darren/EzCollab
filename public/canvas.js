@@ -1,7 +1,8 @@
 var canvas = document.querySelector('canvas');
 
+console.log("Attempting to Connect");
 var socket = io.connect("http://ec2-3-92-177-98.compute-1.amazonaws.com:5000/");
-
+console.log("Connected Socket from Client Side!");
 
 var c = canvas.getContext('2d');
 
