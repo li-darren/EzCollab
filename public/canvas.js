@@ -30,6 +30,7 @@ document.addEventListener('touchstart', function(){
 document.addEventListener('touchmove', function(e){
     console.log("Touch Move!");
     console.log("x: ", e.clientX, " y: ", e.clientY);
+    console.log(e);
 }, false);
 
 socket.on('othersdrawing', drawOthers);
