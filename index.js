@@ -1,13 +1,12 @@
 var express = require('express');
 
 var socket = require('socket.io');
-const server = require('http').Server(app);
 
 //setup the app
 
 var app = express ();
 
-server.listen(5000, function (){
+var server = app.listen(5000, function (){
     console.log("Listening to requests on port 5000");
 });
 
