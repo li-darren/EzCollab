@@ -31,6 +31,7 @@ io.on('connection', function(socket){
 
     socket.on('clear', function(){
         socket.broadcast.emit('clear')
+        line_history = [];
         console.log("Clearing Board!");
     })
     
