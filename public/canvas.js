@@ -1,6 +1,7 @@
+require('dotenv').config()
 var canvas = document.querySelector('canvas');
 
-var socket = io.connect('http://localhost:5000');
+var socket = io.connect(process.env.EC2IP);
 
 
 var c = canvas.getContext('2d');
