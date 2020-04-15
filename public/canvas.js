@@ -27,11 +27,7 @@ document.addEventListener('touchstart', function(){
     console.log("Touch Start!");
 }, false);
 
-document.addEventListener('touchmove', function(e){
-    console.log("Touch Move!");
-    console.log("x: ", e.touches[0].clientX, " y: ", e.touches[0].clientY);
-    console.log("type: ", e.type);
-}, false);
+document.addEventListener('touchmove', draw, false);
 
 socket.on('othersdrawing', drawOthers);
 
