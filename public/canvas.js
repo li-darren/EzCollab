@@ -24,7 +24,7 @@ document.addEventListener('mousedown', setPosition);
 document.addEventListener('mouseenter', setPosition);
 
 document.addEventListener('touchstart', function(){
-    console.log("Touch Start!");
+    setPositionTablet(e);
 }, false);
 
 document.addEventListener('touchmove', draw_tablet, false);
@@ -276,6 +276,7 @@ function draw_tablet(e){
         globalCompositeOperation: c.globalCompositeOperation,
     }
 
+    e.preventDefault();
     socket.emit('othersdrawing', data);
     // console.log(data);
 }
