@@ -12,10 +12,9 @@ server.listen(5000, function (){
 //Static Files
 app.use(express.static('public'));
 
-console.log("wtf is going on");
-
 io.on('connection', function(socket){
 
+    // console.log(socket);
     console.log("Connected Socket!", socket.id);
 
     socket.on('othersdrawing', function(data){
@@ -27,6 +26,10 @@ io.on('connection', function(socket){
         socket.broadcast.emit('clear')
         console.log("Clearing Board!");
     })
+    
+    socket.on('disconnect', () => {
+        socket.removeAllListeners();
+     });
 
 
 });
