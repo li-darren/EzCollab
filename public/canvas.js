@@ -31,6 +31,15 @@ socket.on('clear', function(){
 
 
 function drawOthers(data){
+
+        var old_data = {
+            linewidth: c.lineWidth,
+            strokeStyle: c.strokeStyle,
+            globalCompositeOperation: c.globalCompositeOperation,
+        };
+
+
+
         console.log("Receiving others drawing!");
         c.beginPath();
     
@@ -45,6 +54,16 @@ function drawOthers(data){
         c.lineTo(data.new_pos.x, data.new_pos.y);
     
         c.stroke();
+
+
+
+        //restore info
+        c.lineWidth = old_data.linewidth;
+        c.strokeStyle = old_data.strokeStyle;
+        c.globalCompositeOperation = old_data.globalCompositeOperation;
+
+
+
 }
 
 function erase() {
