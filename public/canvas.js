@@ -1,7 +1,6 @@
-require('dotenv').config()
 var canvas = document.querySelector('canvas');
 
-var socket = io.connect(process.env.EC2IP);
+var socket = io.connect("http://ec2-3-92-177-98.compute-1.amazonaws.com:5000/");
 
 
 var c = canvas.getContext('2d');
