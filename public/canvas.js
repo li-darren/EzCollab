@@ -23,8 +23,13 @@ document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
 document.addEventListener('mouseenter', setPosition);
 
-document.addEventListener('touchstart', sketchpad_touchStart, false);
-document.addEventListener('touchmove', draw, false);
+document.addEventListener('touchstart', function(){
+    console.log("Touch Start!");
+}, false);
+
+document.addEventListener('touchmove', function(){
+    console.log("Touch Move!");
+}, false);
 
 socket.on('othersdrawing', drawOthers);
 
