@@ -236,6 +236,10 @@ function draw(e){
         globalCompositeOperation: c.globalCompositeOperation,
     }
 
+    if (e.type == "touchmove"){
+        console.log("it is touchmove event");
+        e.preventDefault();
+    }
 
     socket.emit('othersdrawing', data);
     // console.log(data);
