@@ -69,8 +69,8 @@ function drawOthers(data){
 }
 
 function erase() {
-    var message = confirm("Want to clear");
-    if (message) {
+    var confirmation = confirm("Are you sure you want to clear");
+    if (confirmation) {
         c.clearRect(0, 0, canvas.width, canvas.height);
         socket.emit('clear');
     }
@@ -78,8 +78,8 @@ function erase() {
 
 function save() {
     var downloadLink = document.createElement('a');
-    downloadLink.href = canvas.toDataURL("image/png");
-    downloadLink.download = 'MyCanvasImage.png';
+    downloadLink.href = canvas.toDataURL("image/jpegs", 1);
+    downloadLink.download = 'EzCollabDrawing.png';
     
     document.body.appendChild(downloadLink);
     downloadLink.click();
