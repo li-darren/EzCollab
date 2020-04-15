@@ -29,7 +29,6 @@ io.on('connection', function(socket){
     socket.on('othersdrawing', function(data){
         line_history.push(data);
         socket.broadcast.emit('othersdrawing', data);
-        console.log("Sending out message");
     })
 
     socket.on('clear', function(){
