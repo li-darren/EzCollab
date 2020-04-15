@@ -1,21 +1,16 @@
 var express = require('express');
-
-var socket = require('socket.io');
-
-//setup the app
-
 var app = express ();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
-var server = app.listen(5000, function (){
+
+server.listen(5000, function (){
     console.log("Listening to requests on port 5000");
 });
 
 //Static Files
 app.use(express.static('public'));
-
-//Setup the socket
-var io = socket(server);
-
 
 io.on('connection', function(socket){
     console.log("Connected Socket!", socket.id);
