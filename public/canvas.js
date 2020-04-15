@@ -23,7 +23,7 @@ document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
 document.addEventListener('mouseenter', setPosition);
 
-document.addEventListener('touchstart', function(){
+document.addEventListener('touchstart', function(e){
     setPositionTablet(e);
 }, false);
 
