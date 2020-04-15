@@ -29,7 +29,7 @@ document.addEventListener('touchstart', function(){
 
 document.addEventListener('touchmove', function(e){
     console.log("Touch Move!");
-    console.log("x: ", e.clientX, " y: ", e.clientY);
+    console.log("x: ", e.touches[0].clientX, " y: ", e.touches[0].clientY);
     console.log(e);
 }, false);
 
