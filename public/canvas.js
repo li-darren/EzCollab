@@ -27,7 +27,7 @@ document.addEventListener('touchstart', function(){
     console.log("Touch Start!");
 }, false);
 
-document.addEventListener('touchmove', draw, false);
+document.addEventListener('touchmove', draw_tablet, false);
 
 socket.on('othersdrawing', drawOthers);
 
@@ -188,6 +188,11 @@ function setPosition(e) {
     pos.y = e.clientY;
 }
 
+function setPositionTablet(e) {
+    pos.x = e.touches[0].clientX;
+    pos.y = e.touches[0].clientY;
+}
+
 function resize(){
     canvas.width = window.innerWidth * .9;
     canvas.height = window.innerHeight * .9;
@@ -232,9 +237,43 @@ function draw(e){
         globalCompositeOperation: c.globalCompositeOperation,
     }
 
-    if (e.type == "touchmove"){
-        console.log("it is touchmove event");
-        e.preventDefault();
+    socket.emit('othersdrawing', data);
+    // console.log(data);
+}
+
+function draw_tablet(e){
+
+    c.beginPath();
+
+    c.lineWidth = linewidth;
+    c.lineCap = "round";
+    c.strokeStyle = colour;
+
+    var old_pos = { x: pos.x, y: pos.y };
+
+    c.moveTo(pos.x, pos.y);
+    setPositionTablet(e);
+
+    var new_pos = { x: pos.x, y: pos.y };
+    c.lineTo(pos.x, pos.y);
+
+    c.stroke();
+
+    var data = {
+        old_pos: {
+            x: old_pos.x,
+            y: old_pos.y
+        },
+        new_pos: {
+            x: new_pos.x,
+            y: new_pos.y
+        },
+
+        lineWidth: linewidth,
+
+        colour: colour,
+
+        globalCompositeOperation: c.globalCompositeOperation,
     }
 
     socket.emit('othersdrawing', data);
