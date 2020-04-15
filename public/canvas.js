@@ -25,6 +25,7 @@ document.addEventListener('mouseenter', setPosition);
 
 document.addEventListener('touchstart', function(e){
     setPositionTablet(e);
+    e.preventDefault();
 }, false);
 
 document.addEventListener('touchmove', draw_tablet, false);
@@ -242,7 +243,7 @@ function draw(e){
 }
 
 function draw_tablet(e){
-
+    e.preventDefault();
     c.beginPath();
 
     c.lineWidth = linewidth;
@@ -276,7 +277,6 @@ function draw_tablet(e){
         globalCompositeOperation: c.globalCompositeOperation,
     }
 
-    e.preventDefault();
     socket.emit('othersdrawing', data);
     // console.log(data);
 }
