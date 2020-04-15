@@ -12,13 +12,20 @@ server.listen(5000, function (){
 //Static Files
 app.use(express.static('public'));
 
+var line_history = [];
+
 io.on('connection', function(socket){
 
     // console.log(socket);
     console.log("Connected Socket!", socket.id);
 
+    for (var i in line_history){
+        socket.emit('othersdrawing', line_history[i]);
+    }
+
     socket.on('othersdrawing', function(data){
-        socket.broadcast.emit('othersdrawing', data)
+        line_history.push(data);
+        socket.broadcast.emit('othersdrawing', data);
         console.log("Sending out message");
     })
 
