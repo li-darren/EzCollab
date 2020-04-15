@@ -13,11 +13,14 @@ server.listen(5000, function (){
 app.use(express.static('public'));
 
 var line_history = [];
+var active_users = 0;
 
 io.on('connection', function(socket){
 
     // console.log(socket);
     console.log("Connected Socket!", socket.id);
+    active_users++;
+    console.log("Connected. Active Users: ", active_users);
 
     for (var i in line_history){
         socket.emit('othersdrawing', line_history[i]);
@@ -37,6 +40,8 @@ io.on('connection', function(socket){
     
     socket.on('disconnect', () => {
         socket.removeAllListeners();
+        active_users--;
+        console.log("Disconnected. Active Users: ", active_users);
      });
 
 
