@@ -1,9 +1,5 @@
 var canvas = document.querySelector('canvas');
 
-console.log("Attempting to Connect");
-// var socket = io.connect("http://localhost:5000");
-var socket = io.connect("http://ec2-3-92-177-98.compute-1.amazonaws.com:5000/");
-console.log("Connected Socket from Client Side!");
 
 var c = canvas.getContext('2d');
 
@@ -14,7 +10,6 @@ var eraserwidth = 7;
 var brushwidth = 7;
 
 resize();
-
 
 var pos = { x: 0, y: 0 };
 
