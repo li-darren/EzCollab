@@ -1,4 +1,4 @@
-ask_for_stream();
+// ask_for_stream();
 
 function ask_for_stream(){
 

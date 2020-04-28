@@ -43,6 +43,12 @@ function drawOthers(data){
             globalCompositeOperation: c.globalCompositeOperation,
         };
 
+        //1080p ratio with chrome should be about 
+        
+        var canvas_ratio_1080p = {
+            width: 1665.7777777777776,
+            height: 937
+        };
 
 
         console.log("Receiving others drawing!");
@@ -54,9 +60,9 @@ function drawOthers(data){
 
         c.globalCompositeOperation = data.globalCompositeOperation;
 
-    
-        c.moveTo(data.old_pos.x, data.old_pos.y);
-        c.lineTo(data.new_pos.x, data.new_pos.y);
+        
+        c.moveTo(data.old_pos.x * (canvas.width / canvas_ratio_1080p.width), data.old_pos.y * (canvas.height / canvas_ratio_1080p.height));
+        c.lineTo(data.new_pos.x * (canvas.width / canvas_ratio_1080p.width), data.new_pos.y * (canvas.height / canvas_ratio_1080p.height));
     
         c.stroke();
 
@@ -194,15 +200,14 @@ function setPositionTablet(e) {
 
 function resize(){
     
-    width = window.innerWidth * 0.864989814410439;
-    height = window.innerHeight * .997;
+    width = window.innerWidth * 0.8675925925925926;
+    height = window.innerHeight;
 
-  
     //1080p ratio with chrome should be about 
     
     // var canvas_ratio_1080p = {
-    //     width: 1660.7804436680428,
-    //     height: 934.189
+    //     width: 1665.7777777777776,
+    //     height: 937
     // };
 
     if ((window.innerWidth / window.innerHeight) > (1920/1080)){//this means that the width ratio is larger than the height, aka widescreen
@@ -213,8 +218,8 @@ function resize(){
         height = window.innerWidth / (1920/1080);
     }
 
-    width = width * .99;
-    height = height * .99; //this is done to remove the ever so slightly small scroll bar
+    width = width;
+    height = height; //this is done to remove the ever so slightly small scroll bar
 
     console.log('canvas width: ', width);
     console.log('canvas height: ', height);
@@ -229,6 +234,7 @@ function draw(e){
     if (e.buttons != 1){ //this means not left click
         return;
     }
+
 
     c.beginPath();
 
@@ -246,14 +252,22 @@ function draw(e){
 
     c.stroke();
 
+    //1080p ratio with chrome should be about 
+    
+    var canvas_ratio_1080p = {
+        width: 1665.7777777777776,
+        height: 937
+    };
+
+
     var data = {
         old_pos: {
-            x: old_pos.x,
-            y: old_pos.y
+            x: old_pos.x * (canvas_ratio_1080p.width / canvas.width),
+            y: old_pos.y * (canvas_ratio_1080p.height / canvas.height)
         },
         new_pos: {
-            x: new_pos.x,
-            y: new_pos.y
+            x: new_pos.x * (canvas_ratio_1080p.width / canvas.width),
+            y: new_pos.y * (canvas_ratio_1080p.height / canvas.height)
         },
 
         lineWidth: linewidth,
