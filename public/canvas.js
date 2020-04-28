@@ -3,6 +3,9 @@ var canvas = document.querySelector('canvas');
 
 var c = canvas.getContext('2d');
 
+
+
+
 var coloursave = "black";
 var colour = "black";
 var linewidth = 7;
