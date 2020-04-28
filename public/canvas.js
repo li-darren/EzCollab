@@ -190,8 +190,34 @@ function setPositionTablet(e) {
 }
 
 function resize(){
-    canvas.width = window.innerWidth * .9;
-    canvas.height = window.innerHeight * .9;
+
+
+    
+    width = window.innerWidth * 0.864989814410439;
+    height = window.innerHeight * .997;
+
+  
+    //1080p ratio with chrome should be about 
+    
+    // var canvas_ratio_1080p = {
+    //     width: 1660.7804436680428,
+    //     height: 934.189
+    // };
+
+    if ((window.innerWidth / window.innerHeight) > (1920/1080)){//this means that the width ratio is larger than the height, aka widescreen
+        //then keep height and readjust width        
+        width = window.innerHeight * (1920/1080);
+    }
+    else{
+        height = window.innerWidth / (1920/1080);
+    }
+    
+    console.log('canvas width: ', width);
+    console.log('canvas height: ', height);
+
+    canvas.width = width;
+    canvas.height = height;
+
 }
 
 function draw(e){
