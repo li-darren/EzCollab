@@ -25,3 +25,7 @@ function startCapture(displayMediaOptions) {
     return navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
        .catch(err => { console.error("Error:" + err); return null; });
 }
+
+function take_screenshot(){ //to do
+
+}
