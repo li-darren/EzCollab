@@ -190,8 +190,6 @@ function setPositionTablet(e) {
 }
 
 function resize(){
-
-
     
     width = window.innerWidth * 0.864989814410439;
     height = window.innerHeight * .997;
@@ -211,7 +209,10 @@ function resize(){
     else{
         height = window.innerWidth / (1920/1080);
     }
-    
+
+    width = width * .9975;
+    height = height * .9975; //this is done to remove the ever so slightly small scroll bar
+
     console.log('canvas width: ', width);
     console.log('canvas height: ', height);
 
