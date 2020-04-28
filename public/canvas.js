@@ -210,8 +210,8 @@ function resize(){
         height = window.innerWidth / (1920/1080);
     }
 
-    width = width * .9975;
-    height = height * .9975; //this is done to remove the ever so slightly small scroll bar
+    width = width * .99;
+    height = height * .99; //this is done to remove the ever so slightly small scroll bar
 
     console.log('canvas width: ', width);
     console.log('canvas height: ', height);
