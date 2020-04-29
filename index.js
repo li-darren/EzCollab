@@ -35,6 +35,11 @@ io.on('connection', function(socket){
         line_history = [];
         console.log("Clearing Board!");
     });
+
+    socket.on('RTC_Connection', ({desc, candidate}) => {
+        socket.broadcast.emit({desc, candidate});
+    });
+
     
     socket.on('disconnect', function(){
         socket.removeAllListeners();

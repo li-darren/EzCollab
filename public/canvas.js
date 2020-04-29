@@ -1,9 +1,7 @@
 var canvas = document.querySelector('canvas');
-
+const stream_window = document.querySelector('video');
 
 var c = canvas.getContext('2d');
-
-
 
 
 var coloursave = "black";
@@ -227,6 +225,11 @@ function resize(){
     canvas.width = width;
     canvas.height = height;
 
+
+    stream_window.style.width = width;
+    stream_window.style.height = height;
+    // stream_window.setAttribute("width", width);
+    // stream_window.setAttribute("height", "auto");
 }
 
 function draw(e){
@@ -258,7 +261,6 @@ function draw(e){
         width: 1665.7777777777776,
         height: 937
     };
-
 
     var data = {
         old_pos: {

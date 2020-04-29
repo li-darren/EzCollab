@@ -16,19 +16,18 @@
     <style type="text/css">
     
         canvas{
-            background-color: yellow;
             /* border: 1px solid black; */
             display: block;
         }
 
         body{
             margin: 0;
-            background-color: white;
+            background-color: purple;
         }
     </style>
 
-    <!-- <script src="http://localhost:5000/socket.io/socket.io.js"></script> -->
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
 
 
 </head>
@@ -53,14 +52,16 @@
         <div style="position:absolute;top:40%;left:92%;" id = "total_users">Total Drawers: 0</div>
         <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;left:92%;">
         <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:95%;">
-        <input type="button" value="Stream!" id="clr" size="23" onclick="ask_for_stream()" style="position:absolute;top:60%;left:93%;">
+        <input type="button" value="Stream!" id="clr" size="23" onclick="start_streaming()" style="position:absolute;top:60%;left:93%;">
         <input type="button" value="Take Screenshot to Collab!" id="clr" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;left:90%;">
-
-        <canvas></canvas>
+        <div class="video-container">
+            <video class = "video" id="video" autoplay controls playsinline></video>
+        </div>
+        <canvas style = "position:absolute;top:0; left:0;"></canvas>
         <script>
             console.log("Attempting to Connect");
-            // var socket = io.connect("http://localhost:5000");
-            var socket = io.connect("http://ec2-3-92-177-98.compute-1.amazonaws.com:5000/");
+            var socket = io.connect("http://localhost:5000");
+            // var socket = io.connect("http://ec2-3-92-177-98.compute-1.amazonaws.com:5000/");
             console.log("Connected Socket from Client Side!");
                 
             socket.on('getCount', function(total_users){
