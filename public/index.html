@@ -33,6 +33,9 @@
 
 </head>
 <body>
+        <div class="video-container">
+            <video class = "video" id="video" autoplay controls playsinline></video>
+        </div>
         <div style="position:absolute;top:12%;left:93%;">Choose Color</div>
         <div style="position:absolute;top:15%;left:94%;width:10px;height:10px;background:green;" id="green" onclick="getColour(this)"></div>
         <div style="position:absolute;top:15%;left:95%;width:10px;height:10px;background:blue;" id="blue" onclick="getColour(this)"></div>
@@ -55,9 +58,6 @@
         <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:95%;">
         <input type="button" value="Stream!" id="clr" size="23" onclick="start_streaming()" style="position:absolute;top:60%;left:93%;">
         <input type="button" value="Take Screenshot to Collab!" id="clr" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;left:90%;">
-        <div class="video-container">
-            <video class = "video" id="video" autoplay controls playsinline></video>
-        </div>
         <canvas style = "position:absolute;top:0; left:0;"></canvas>
         <script>
             console.log("Attempting to Connect");
