@@ -5,8 +5,14 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 
-server.listen(80, function (){
-    console.log("Listening to requests on port 80");
+// server.listen(80, function (){
+//     console.log("Listening to requests on port 80");
+// });
+
+app.listen(5000, () => console.log('Server running on port 3000'));
+
+app.get('/', (req,res) => {
+    res.send('Test!');
 });
 
 
