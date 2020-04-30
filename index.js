@@ -9,6 +9,10 @@ server.listen(5000, function (){
     console.log("Listening to requests on port 5000");
 });
 
+app.listen(80, function(){
+    console.log("listening");  
+});
+
 //Static Files
 app.use(express.static('public'));
 
