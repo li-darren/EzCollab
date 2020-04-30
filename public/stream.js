@@ -34,7 +34,7 @@ pc.ontrack = (event) => {
 async function start_streaming() {
 try {
     // get local stream, show it in self-view and add it to be sent
-    const stream = await navigator.mediaDevices.getUserMedia(displayMediaOptions);
+    const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
     stream.getTracks().forEach((track) =>
         pc.addTrack(track, stream));
     stream_window.srcObject = stream;
