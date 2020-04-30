@@ -5,8 +5,8 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 
-server.listen(5000, function (){
-    console.log("Listening to requests on port 5000");
+server.listen(80, function (){
+    console.log("Listening to requests on port 80");
 });
 
 
