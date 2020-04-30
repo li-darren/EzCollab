@@ -26,7 +26,7 @@
         }
     </style>
 
-    <!-- <script src="http://127.0.0.1:5000/socket.io/socket.io.js"></script> -->
+    <!-- <script src="http://localhost:5000/socket.io/socket.io.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
 
 
@@ -62,7 +62,8 @@
             console.log("Attempting to Connect");
             // var socket = io.connect("http://localhost:5000");
             // var socket = io.connect("http://ec2-3-92-177-98.compute-1.amazonaws.com:5000/");
-            var socket = io.connect("http://ezcollab.lidarren.me");
+            // var socket = io.connect("http://ezcollab.lidarren.me");
+            var socket = io ();
             console.log("Connected Socket from Client Side!");
                 
             socket.on('getCount', function(total_users){
