@@ -9,7 +9,7 @@ var io = require('socket.io').listen(server);
 //     console.log("Listening to requests on port 80");
 // });
 
-app.listen(5000, () => console.log('Server running on port 80'));
+server.listen(5000, () => console.log('Server running on port 5000'));
 
 //Static Files
 app.use(express.static('public'));
