@@ -11,11 +11,6 @@ var io = require('socket.io').listen(server);
 
 app.listen(5000, () => console.log('Server running on port 80'));
 
-app.get('/', (req,res) => {
-    res.send('Test!');
-});
-
-
 //Static Files
 app.use(express.static('public'));
 
