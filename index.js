@@ -5,10 +5,6 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 
-// server.listen(80, function (){
-//     console.log("Listening to requests on port 80");
-// });
-
 server.listen(5000, () => console.log('Server running on port 5000'));
 
 //Static Files
@@ -39,10 +35,11 @@ io.on('connection', function(socket){
     });
 
     socket.on('RTC_Connection', ({desc, candidate}) => {
+        console.log("Socket Received RTC Connection");
         socket.broadcast.emit({desc, candidate});
     });
 
-    
+   
     socket.on('disconnect', function(){
         socket.removeAllListeners();
         console.log("Disconnected. Active Users: ", io.engine.clientsCount);
