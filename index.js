@@ -38,7 +38,6 @@ io.on('connection', function(socket){
         console.log("Socket Received RTC Connection");
         socket.broadcast.emit('RTC_Connection', {desc, candidate});
     });
-
    
     socket.on('disconnect', function(){
         socket.removeAllListeners();

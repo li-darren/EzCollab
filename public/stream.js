@@ -59,9 +59,18 @@ socket.on('RTC_Connection', async ({desc, candidate}) => {
           if (desc.type === 'offer') {
             console.log("Offer!");
             await pc.setRemoteDescription(desc);
-            const stream = await navigator.mediaDevices.getUserMedia(displayMediaOptions);
-            stream.getTracks().forEach((track) =>
-              pc.addTrack(track, stream));
+            // const stream = await navigator.mediaDevices.getUserMedia(displayMediaOptions);
+            // stream.getTracks().forEach((track) =>
+            //   pc.addTrack(track, stream));
+
+            var receivers = pc.getReceivers();
+
+            if (!stream_window.srcObject && receivers) {
+              stream_window.srcObject = receivers[0].track;
+            }else{
+              console.log("Already stream playing or no one is streaming!");
+            }
+
             await pc.setLocalDescription(await pc.createAnswer());
             socket.emit('RTC_Connection', {desc: pc.localDescription});
           } else if (desc.type === 'answer') {
