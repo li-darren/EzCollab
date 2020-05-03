@@ -36,7 +36,7 @@ io.on('connection', function(socket){
 
     socket.on('RTC_Connection', ({desc, candidate}) => {
         console.log("Socket Received RTC Connection");
-        socket.broadcast.emit({desc, candidate});
+        socket.broadcast.emit('RTC_Connection', {desc, candidate});
     });
 
    
