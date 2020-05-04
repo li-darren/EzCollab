@@ -32,10 +32,10 @@ socket.on('Watcher_Request', async ({socket_from_id}) => {
   peerConnections[socket_from_id] = peerConnection;
 
 
-  peerConnection.onicecandidate = ({event}) => {
+  peerConnection.onicecandidate = (event) => {
     if (event.candidate){ //non null candidate
-      console.log("Found Ice Candidate");
-      socket.emit('RTC_Connection_Candidate', {socket_to_id: socket_from_id, candidate: event});
+      console.log("Found Ice Candidate as Broadcaster");
+      socket.emit('RTC_Connection_Candidate_to_Watcher', {socket_to_id: socket_from_id, candidate: event.candidate});
     }
   };
 
@@ -74,11 +74,15 @@ socket.on('RTC_Connection_Answer', async ({socket_from_id, desc}) => {
       }
 });
 
-socket.on('RTC_Connection_Candidate', async ({socket_from_id, candidate}) => {
+socket.on('RTC_Connection_Candidate_to_Broadcaster', async (socket_from_id, candidate) => {
 
-  console.log("Adding Candidate!");
+  try{
+  console.log("Adding Candidate as Broadcaster!");
   await peerConnections[socket_from_id].addIceCandidate(candidate);
-
+  }
+  catch(err){
+    console.log(err);
+  }
 });
 
 

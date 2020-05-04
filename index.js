@@ -63,9 +63,14 @@ io.on('connection', function(socket){
         io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
     });
 
-    socket.on('RTC_Connection_Candidate', ({socket_to_id, candidate}) => {
-        console.log("Found Ice Candidate");
-        io.to(socket_to_id).emit('RTC_Connection_Candidate', {socket_from_id: socket.id, candidate: candidate});
+    socket.on('RTC_Connection_Candidate_to_Broadcaster', ({socket_to_id, candidate}) => {
+        console.log("Found Ice Candidate to Broadcaster");
+        io.to(socket_to_id).emit('RTC_Connection_Candidate_to_Broadcaster', {socket_from_id: socket.id, candidate: candidate});
+    });
+
+    socket.on('RTC_Connection_Candidate_to_Watcher', ({socket_to_id, candidate}) => {
+        console.log("Found Ice Candidate to Watcher");
+        io.to(socket_to_id).emit('RTC_Connection_Candidate_to_Watcher', candidate);
     });
 
 
