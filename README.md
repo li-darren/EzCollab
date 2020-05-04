@@ -1,3 +1,3 @@
-# Collaborate Notes
-Work together to collaborate and work on notes!
+# EZCollab
+Stream your screen and work together to collaborate!
 
