@@ -12,6 +12,8 @@ app.use(express.static('public'));
 
 var line_history = [];
 
+var broadcaster;
+
 io.on('connection', function(socket){
 
     console.log("Connected Socket!", socket.id);
@@ -33,17 +35,38 @@ io.on('connection', function(socket){
         line_history = [];
         console.log("Clearing Board!");
     });
-
-    socket.on('RTC_Connection', ({desc, candidate}) => {
-        console.log("Socket Received RTC Connection");
-        socket.broadcast.emit('RTC_Connection', {desc, candidate});
-    });
    
     socket.on('disconnect', function(){
         socket.removeAllListeners();
         console.log("Disconnected. Active Users: ", io.engine.clientsCount);
         io.emit('getCount', io.engine.clientsCount);
-     });
+    });
+
+    socket.on('Broadcasting', function(){
+        console.log('Someone is broadcasting!');
+        broadcaster = socket.id;
+        socket.broadcast.emit('Broadcasting');
+    });
+
+    socket.on('RTC_Connection_Offer', ({socket_to_id, desc}) => {
+        console.log("Sending RTC Connection Offer");
+        io.to(socket_to_id).emit('RTC_Connection_Offer', {socket_from_id: socket.id, desc});
+    });
+
+    socket.on('RTC_Connection_Answer', ({socket_to_id, desc}) => {
+        console.log("Sending RTC Connection Answer");
+        io.to(socket_to_id).emit('RTC_Connection_Answer', {socket_from_id: socket.id, desc});
+    });
+
+    socket.on('Watcher_Request', function(){
+        console.log(socket.id, ' is requesting to watch');
+        io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
+    });
+
+    socket.on('RTC_Connection_Candidate', ({socket_to_id, candidate}) => {
+        console.log("Found Ice Candidate");
+        io.to(socket_to_id).emit('RTC_Connection_Candidate', {socket_from_id: socket.id, candidate: candidate});
+    });
 
 
 });
