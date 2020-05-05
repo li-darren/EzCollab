@@ -72,7 +72,7 @@ io.on('connection', function(socket){
 
     socket.on('RTC_Connection_Candidate_to_Broadcaster', ({socket_to_id, candidate}) => {
         console.log("Found Ice Candidate to Broadcaster");
-        io.to(socket_to_id).emit('RTC_Connection_Candidate_to_Broadcaster', {socket_from_id: socket.id, candidate: candidate});
+        io.to(socket_to_id).emit('RTC_Connection_Candidate_to_Broadcaster', socket.id, candidate);
     });
 
     socket.on('RTC_Connection_Candidate_to_Watcher', ({socket_to_id, candidate}) => {
