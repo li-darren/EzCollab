@@ -13,8 +13,18 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 
     await peerConnection.setRemoteDescription(desc);
     await peerConnection.setLocalDescription(await peerConnection.createAnswer());
-
     socket.emit('RTC_Connection_Answer', {socket_to_id: socket_from_id, desc: peerConnection.localDescription});
+  
+    peerConnection.ontrack = event => {
+      console.log("on track");
+      // don't set srcObject again if it is already set.
+      if (stream_window.srcObject){
+        return;
+      }else{
+        stream_window.srcObject = event.streams[0];
+        // stream_window.play();
+      }
+    };
 
     peerConnection.onicecandidate = (event) => {
       if (event.candidate){
@@ -23,23 +33,19 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
       }
     };
 
-    peerConnection.ontrack = (event) => {
-      console.log("on track");
-      // don't set srcObject again if it is already set.
-      if (stream_window.srcObject){
-        return;
-      }else{
-        stream_window.srcObject = event.streams[0];
-      }
-    };
-  
-    // var receivers = peerConnection.getReceivers();
-  
-    // if (!stream_window.srcObject && receivers) {
-    //   stream_window.srcObject = receivers[0].track;
-    // }else{
-    //   console.log("Already stream playing or no one is streaming!");
+   
+    // if (!stream_window.srcObject){
+    //   stream_window.srcObject = peerConnection.getRemoteStreams()[0];
     // }
+
+    var receivers = peerConnection.getReceivers();
+    const media_stream = new MediaStream();
+    media_stream.addTrack(receivers[0].track);
+    if (!stream_window.srcObject && receivers) {
+        stream_window.srcObject = media_stream;
+    }else{
+      console.log("Already stream playing or no one is streaming!");
+    }
   
 
 
@@ -58,7 +64,7 @@ socket.on('Broadcasting', async () => {
 socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
 
   try{
-    console.log("Adding Candidate as Watcher!", candidate);
+    console.log("Adding Candidate as Watcher!");
     await peerConnection.addIceCandidate(candidate);
   }
   catch(err){

@@ -13,6 +13,7 @@ app.use(express.static('public'));
 var line_history = [];
 
 var broadcaster;
+let broadcasting = false;
 
 io.on('connection', function(socket){
 
@@ -20,6 +21,11 @@ io.on('connection', function(socket){
     var total_users = io.engine.clientsCount;
     console.log("Connected. Active Users: ", total_users);
     io.emit('getCount', total_users);
+
+    if (broadcasting){
+        console.log(socket.id, ' is requesting to watch');
+        io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
+    }
 
     for (var i in line_history){
         socket.emit('othersdrawing', line_history[i]);
@@ -46,6 +52,7 @@ io.on('connection', function(socket){
         console.log('Someone is broadcasting!');
         broadcaster = socket.id;
         socket.broadcast.emit('Broadcasting');
+        broadcasting = true;
     });
 
     socket.on('RTC_Connection_Offer', ({socket_to_id, desc}) => {

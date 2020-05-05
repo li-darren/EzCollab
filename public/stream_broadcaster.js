@@ -31,6 +31,11 @@ socket.on('Watcher_Request', async ({socket_from_id}) => {
   const peerConnection = new RTCPeerConnection ();
   peerConnections[socket_from_id] = peerConnection;
 
+  let stream = stream_window.srcObject;
+
+  stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+  console.log("Added all the tracks!");
+
 
   peerConnection.onicecandidate = (event) => {
     if (event.candidate){ //non null candidate
@@ -39,26 +44,17 @@ socket.on('Watcher_Request', async ({socket_from_id}) => {
     }
   };
 
-  peerConnection.ontrack = (event) => {
-    console.log("on track");
-    // don't set srcObject again if it is already set.
-    if (stream_window.srcObject){
-      return;
-    }else{
-      stream_window.srcObject = event.streams[0];
-    }
-  };
-
-  let stream = stream_window.srcObject;
-
-  stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
-  console.log("Added all the tracks!");
-
+  // peerConnection.ontrack = (event) => {
+  //   console.log("on track");
+  //   // don't set srcObject again if it is already set.
+  //   if (stream_window.srcObject){
+  //     return;
+  //   }else{
+  //     stream_window.srcObject = event.streams[0];
+  //   }
+  // };
 
   await peerConnection.setLocalDescription(await peerConnection.createOffer());
-
-
-
   socket.emit('RTC_Connection_Offer', {socket_to_id: socket_from_id, desc: peerConnection.localDescription});
 
 });
