@@ -7,12 +7,9 @@ const displayMediaOptions = {
     }
 }
 
-// const configuration = {iceServers: [{urls: 'stuns:stun.example.org'}]};
-// const pc = new RTCPeerConnection(configuration);
-// send any ice candidates to the other peer
+const configuration = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]};
 
 
-  
 // this is called from stream button to initiate
 async function start_streaming() {
   try {
@@ -28,7 +25,7 @@ async function start_streaming() {
 
 socket.on('Watcher_Request', async ({socket_from_id}) => { 
 
-  const peerConnection = new RTCPeerConnection ();
+  const peerConnection = new RTCPeerConnection (configuration);
   peerConnections[socket_from_id] = peerConnection;
 
   let stream = stream_window.srcObject;

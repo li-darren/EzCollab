@@ -1,14 +1,9 @@
 let peerConnection;
 
-// const configuration = {iceServers: [{urls: 'stuns:stun.example.org'}]};
-// const pc = new RTCPeerConnection(configuration);
-// send any ice candidates to the other peer
-
-
 socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
   try {
 
-    peerConnection = new RTCPeerConnection();
+    peerConnection = new RTCPeerConnection(configuration);
     console.log("Offer!");
 
     await peerConnection.setRemoteDescription(desc);
