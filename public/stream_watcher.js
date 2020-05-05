@@ -40,6 +40,7 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 
     var receivers = peerConnection.getReceivers();
     const media_stream = new MediaStream();
+    console.log(receivers);
     media_stream.addTrack(receivers[0].track);
     if (!stream_window.srcObject && receivers) {
         stream_window.srcObject = media_stream;
