@@ -23,8 +23,8 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 
     peerConnection.onicecandidate = (event) => {
       if (event.candidate){
-        console.log("Found Ice Candidate");
-        socket.emit("RTC_Connection_Candidate_to_Broadcaster", {socket_id: socket_from_id, candidate: event.candidate});
+        console.log("Found Ice Candidate as Watcher");
+        socket.emit('RTC_Connection_Candidate_to_Broadcaster', {socket_to_id: socket_from_id, candidate: event.candidate});
       }
     };
 
