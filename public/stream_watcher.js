@@ -62,7 +62,7 @@ socket.on('Broadcasting', async () => {
 socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
 
   try{
-    console.log("Adding Candidate as Watcher!");
+    console.log("Adding Candidate as Watcher!", candidate);
     await peerConnection.addIceCandidate(candidate);
   }
   catch(err){

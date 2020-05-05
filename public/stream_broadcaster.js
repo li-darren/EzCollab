@@ -70,7 +70,7 @@ socket.on('RTC_Connection_Answer', async ({socket_from_id, desc}) => {
 socket.on('RTC_Connection_Candidate_to_Broadcaster', async (socket_from_id, candidate) => {
 
   try{
-    console.log("Adding Candidate as Broadcaster!");
+    console.log("Adding Candidate as Broadcaster!", candidate);
     await peerConnections[socket_from_id].addIceCandidate(candidate);
   }
   catch(err){
