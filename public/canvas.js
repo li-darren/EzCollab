@@ -24,6 +24,11 @@ document.addEventListener('touchstart', function(e){
     e.preventDefault();
 }, false);
 
+//[Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive. See <URL>
+// canvas.js:24 [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive. See https://www.chromestatus.com/features/5093566007214080
+// (anonymous) @ canvas.js:24
+
+
 document.addEventListener('touchmove', draw_tablet, false);
 
 socket.on('othersdrawing', drawOthers);

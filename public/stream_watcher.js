@@ -34,19 +34,21 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
     };
 
    
-    // if (!stream_window.srcObject){
-    //   stream_window.srcObject = peerConnection.getRemoteStreams()[0];
-    // }
-
-    var receivers = peerConnection.getReceivers();
-    const media_stream = new MediaStream();
-    console.log(receivers);
-    media_stream.addTrack(receivers[0].track);
-    if (!stream_window.srcObject && receivers) {
-        stream_window.srcObject = media_stream;
-    }else{
-      console.log("Already stream playing or no one is streaming!");
+    if (!stream_window.srcObject){
+      stream_window.srcObject = peerConnection.getRemoteStreams()[0];
     }
+
+    
+
+    // var receivers = peerConnection.getReceivers();
+    // const media_stream = new MediaStream();
+    // console.log(receivers);
+    // media_stream.addTrack(receivers[0].track);
+    // if (!stream_window.srcObject && receivers) {
+    //     stream_window.srcObject = media_stream;
+    // }else{
+    //   console.log("Already stream playing or no one is streaming!");
+    // }
   
 
 
