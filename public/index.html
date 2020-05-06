@@ -12,19 +12,9 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    
-    <style type="text/css">
-    
-        canvas{
-            /* border: 1px solid black; */
-            display: block;
-        }
+    <link rel="stylesheet" type="text/css" href="css/default.css">
 
-        body{
-            margin: 0;
-            background-color: purple;
-        }
-    </style>
+
 
     <!-- <script src="http://localhost:5000/socket.io/socket.io.js"></script> -->
     <!-- <script src="../socket.io/socket.io.js"></script> -->
@@ -33,9 +23,7 @@
 
 </head>
 <body>
-        <div class="video-container">
-            <video class = "video" id="video" autoplay controls playsinline></video>
-        </div>
+        <video class = "video" id="video" src="testmp41.mp4" autoplay muted playsinline></video>
         <div style="position:absolute;top:12%;left:93%;">Choose Color</div>
         <div style="position:absolute;top:15%;left:94%;width:10px;height:10px;background:green;" id="green" onclick="getColour(this)"></div>
         <div style="position:absolute;top:15%;left:95%;width:10px;height:10px;background:blue;" id="blue" onclick="getColour(this)"></div>
@@ -54,10 +42,10 @@
         <div style="position:absolute;top:34%;left:94%;width:15px;height:15px;background:white;border:2px solid; border-color: black" id="white17" onclick="getColour(this)"></div>
         <div style="position:absolute;top:33.5%;left:95.5%;width:25px;height:25px;background:white;border:2px solid; border-color: black" id="white27" onclick="getColour(this)"></div>
         <div style="position:absolute;top:40%;left:92%;" id = "total_users">Total Drawers: 0</div>
-        <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;left:92%;">
-        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:95%;">
-        <input type="button" value="Stream!" id="clr" size="23" onclick="start_streaming()" style="position:absolute;top:60%;left:93%;">
-        <input type="button" value="Take Screenshot to Collab!" id="clr" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;left:90%;">
+        <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;right:6%;">
+        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;right:2.5%;">
+        <input type="button" value="Stream!" id="clr" size="23" onclick="start_streaming()" style="position:absolute;top:60%;right:4%;">
+        <input type="button" value="Take Screenshot to Collab!" id="clr" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;right:1%;">
         <canvas style = "position:absolute;top:0; left:0;"></canvas>
         <script>
             console.log("Attempting to Connect");

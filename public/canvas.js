@@ -1,5 +1,6 @@
 var canvas = document.querySelector('canvas');
 const stream_window = document.querySelector('video');
+const video_container = document.getElementsByClassName("video-container")[0];
 
 var c = canvas.getContext('2d');
 
@@ -14,7 +15,6 @@ resize();
 
 var pos = { x: 0, y: 0 };
 
-// window.addEventListener('resize', resize);
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
 document.addEventListener('mouseenter', setPosition);
@@ -213,16 +213,18 @@ function resize(){
     //     height: 937
     // };
 
-    if ((window.innerWidth / window.innerHeight) > (1920/1080)){//this means that the width ratio is larger than the height, aka widescreen
-        //then keep height and readjust width        
-        width = window.innerHeight * (1920/1080);
+    if ((width / height) > (1920/1080)){//this means that the width ratio is larger than the height, aka widescreen
+        //then keep height and readjust width
+        console.log("keeping height", window.innerHeight);
+        width = height * (1920/1080);
     }
     else{
-        height = window.innerWidth / (1920/1080);
+        console.log("keeping width", window.innerWidth);
+        height = width / (1920/1080);
     }
 
-    width = width;
-    height = height; //this is done to remove the ever so slightly small scroll bar
+    // width = width;
+    // height = height; //this is done to remove the ever so slightly small scroll bar
 
     console.log('canvas width: ', width);
     console.log('canvas height: ', height);
@@ -231,8 +233,20 @@ function resize(){
     canvas.height = height;
 
 
-    stream_window.style.width = width;
-    stream_window.style.height = height;
+
+
+    var width_string = "".concat(width, "px");
+    var height_string = "".concat(height, "px");
+
+
+    // video_container.style.width = width_string;
+    // video_container.style.height = height_string;
+    stream_window.style.width = width_string;
+    stream_window.style.height = height_string;
+
+    console.log("video width", stream_window.style.width);
+    console.log("video height", stream_window.style.height);
+
     // stream_window.setAttribute("width", width);
     // stream_window.setAttribute("height", "auto");
 }
