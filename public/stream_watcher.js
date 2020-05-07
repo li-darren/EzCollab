@@ -54,9 +54,9 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 });
 
 socket.on('Broadcasting', async () => {
-
+  document.querySelector('#Stream').disabled = true;
+  document.querySelector('#StopStream').disabled = true;
   socket.emit('Watcher_Request');
-
 });
 
 socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
@@ -76,3 +76,26 @@ socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
 
 
 });
+
+socket.on('Stop_Broadcasting', async () => {
+
+  document.querySelector('#Stream').disabled = false;
+  document.querySelector('#StopStream').disabled = true;
+  watcher_free_resources();
+  stream_window.srcObject = null;
+  //TODO: code to reenable stream buttom
+
+});
+
+
+window.onbeforeunload = function (e){
+  watcher_free_resources();
+  socket.close();
+};
+
+function watcher_free_resources(){
+  
+  peerConnection.close();
+  delete peerConnection;
+
+}

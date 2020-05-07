@@ -44,8 +44,29 @@ io.on('connection', function(socket){
    
     socket.on('disconnect', function(){
         socket.removeAllListeners();
-        console.log("Disconnected. Active Users: ", io.engine.clientsCount);
-        io.emit('getCount', io.engine.clientsCount);
+        console.log("Disconnected. Active Users: ", io.engine.clientsCount - 1);
+        io.emit('getCount', io.engine.clientsCount - 1);
+        //specific watcher/broadcaster disconnected happened in seperate code
+
+        if (socket.id == broadcaster){
+            stop_broadcasting();
+        }
+        else{
+            io.to(broadcaster).emit('Watcher_Disconnect', socket.id); //tell broadcaster which watcher disconnected to free resources
+        }
+
+    });
+
+    function stop_broadcasting(){
+        broadcaster = null;
+        broadcasting = false;
+        socket.broadcast.emit('Stop_Broadcasting');
+        console.log('Stopping Broadcast');
+    }
+
+
+    socket.on('Stop_Broadcasting', function(){
+        stop_broadcasting();
     });
 
     socket.on('Broadcasting', function(){
@@ -79,6 +100,5 @@ io.on('connection', function(socket){
         console.log("Found Ice Candidate to Watcher");
         io.to(socket_to_id).emit('RTC_Connection_Candidate_to_Watcher', candidate);
     });
-
 
 });

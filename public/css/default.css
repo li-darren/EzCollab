@@ -1,3 +1,56 @@
+.colorbuttons{
+
+    position:absolute;
+    width:10px;
+    height:10px;
+
+}
+
+#green{
+    top:15%;
+    left:94%;
+    background:green;
+}
+
+#blue{
+    top:15%;
+    left:95%;
+    background:blue;
+}
+
+#red{
+    top:15%;
+    left:96%;
+    background:red;
+}
+
+#yellow{
+    top:17%;
+    left:94%;
+    background:yellow;
+}
+
+#orange{
+    top:17%;
+    left:95%;
+    background:orange;
+}
+
+#black{
+    top:17%;
+    left:96%;
+    background:black;
+}
+
+#CurrentColour{
+    top:22.5%;
+    left:95%;
+    background: black;
+    border-color: black;
+    border: 2px solid;
+    
+}
+
 video{
     border: none;
     position:absolute;

@@ -23,16 +23,16 @@
 
 </head>
 <body>
-        <video class = "video" id="video" src="testmp41.mp4" autoplay muted playsinline></video>
+        <video class = "video" id="video" src="testmp41.mp4" autoplay muted loop playsinline></video>
         <div style="position:absolute;top:12%;left:93%;">Choose Color</div>
-        <div style="position:absolute;top:15%;left:94%;width:10px;height:10px;background:green;" id="green" onclick="getColour(this)"></div>
-        <div style="position:absolute;top:15%;left:95%;width:10px;height:10px;background:blue;" id="blue" onclick="getColour(this)"></div>
-        <div style="position:absolute;top:15%;left:96%;width:10px;height:10px;background:red;" id="red" onclick="getColour(this)"></div>
-        <div style="position:absolute;top:17%;left:94%;width:10px;height:10px;background:yellow;" id="yellow" onclick="getColour(this)"></div>
-        <div style="position:absolute;top:17%;left:95%;width:10px;height:10px;background:orange;" id="orange" onclick="getColour(this)"></div>
-        <div style="position:absolute;top:17%;left:96%;width:10px;height:10px;background:black;" id="black" onclick="getColour(this)"></div>
+        <div class = "colorbuttons" id="green" onclick="getColour(this)"></div>
+        <div class = "colorbuttons" id="blue" onclick="getColour(this)"></div>
+        <div class = "colorbuttons" id="red" onclick="getColour(this)"></div>
+        <div class = "colorbuttons" id="yellow" onclick="getColour(this)"></div>
+        <div class = "colorbuttons" id="orange" onclick="getColour(this)"></div>
+        <div class = "colorbuttons" id="black" onclick="getColour(this)"></div>
         <div style="position:absolute;top:20%;left:93%;">Current Color</div>
-        <div style="position:absolute;top:22.5%;left:95%;width:10px;height:10px;background:black; border-color: black; border: 2px solid" id="CurrentColour"></div>
+        <div class = "colorbuttons" id="CurrentColour"></div>
         <div style="position:absolute;top:25%;left:93%;">Width</div>
         <div style="position:absolute;top:28.5%;left:93%;width:5px;height:5px;background:black;border:2px solid; border-color: red" id="width7" onclick="setBrushWidth(this)"></div>
         <div style="position:absolute;top:28%;left:94%;width:15px;height:15px;background:black;border:2px solid; border-color: white" id="width17" onclick="setBrushWidth(this)"></div>
@@ -42,10 +42,11 @@
         <div style="position:absolute;top:34%;left:94%;width:15px;height:15px;background:white;border:2px solid; border-color: black" id="white17" onclick="getColour(this)"></div>
         <div style="position:absolute;top:33.5%;left:95.5%;width:25px;height:25px;background:white;border:2px solid; border-color: black" id="white27" onclick="getColour(this)"></div>
         <div style="position:absolute;top:40%;left:92%;" id = "total_users">Total Drawers: 0</div>
-        <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;right:6%;">
-        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;right:2.5%;">
-        <input type="button" value="Stream!" id="clr" size="23" onclick="start_streaming()" style="position:absolute;top:60%;right:4%;">
-        <input type="button" value="Take Screenshot to Collab!" id="clr" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;right:1%;">
+        <input type="button" value="save" id="save" size="30" onclick="save()" style="position:absolute;top:55%;right:6%;">
+        <input type="button" value="clear" id="clear" size="23" onclick="erase()" style="position:absolute;top:55%;right:2.5%;">
+        <input type="button" value="Stream!" id="Stream" size="23" onclick="start_streaming()" style="position:absolute;top:60%;right:7%;">
+        <input type="button" value="Stop Stream!!" id="StopStream" size="23" onclick="stop_stream()" style="position:absolute;top:60%;right:1%;" disabled>
+        <input type="button" value="Take Screenshot to Collab!" id="Screenshot" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;right:1%;">
         <canvas style = "position:absolute;top:0; left:0;"></canvas>
         <script>
             console.log("Attempting to Connect");

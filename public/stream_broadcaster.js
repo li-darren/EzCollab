@@ -16,7 +16,10 @@ async function start_streaming() {
       console.log("Starting Stream!");
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
       stream_window.srcObject = stream;
+      document.querySelector('#Stream').disabled = true;
+      document.querySelector('#StopStream').disabled = false;
       socket.emit('Broadcasting');
+      
 
   } catch (err) {
       console.error(err);
@@ -54,6 +57,7 @@ socket.on('Watcher_Request', async ({socket_from_id}) => {
   await peerConnection.setLocalDescription(await peerConnection.createOffer());
   socket.emit('RTC_Connection_Offer', {socket_to_id: socket_from_id, desc: peerConnection.localDescription});
 
+
 });
 
 socket.on('RTC_Connection_Answer', async ({socket_from_id, desc}) => {
@@ -83,8 +87,42 @@ socket.on('RTC_Connection_Candidate_to_Broadcaster', async (socket_from_id, cand
   }
 });
 
+socket.on('Watcher_Disconnect', async (socket_from_id) => {
+
+  await peerConnections[socket_from_id].close();
+  delete peerConnections[socket_from_id];
+
+});
+
+window.addEventListener("beforeunload", function(){
+  broadcaster_free_resources();
+  socket.close();
+});
+
+function broadcaster_free_resources(){
+
+  var connections = Object.keys(peerConnections);
+
+  for (connection of connections){
+    peerConnections[connection].close();
+    delete peerConnections[connection];
+  }
+
+}
+
 
 function take_screenshot(){ //to do
 
 }
 
+function stop_stream(){
+  document.querySelector('#Stream').disabled = false;
+  document.querySelector('#StopStream').disabled = true;
+  console.log("Stopping Stream");
+  if (stream_window.srcObject){
+    stream_window.srcObject.getTracks().forEach((track) => stream_window.srcObject.removeTrack(track));
+  }
+  broadcaster_free_resources();
+  stream_window.srcObject = null;
+  socket.emit('Stop_Broadcasting');
+}
