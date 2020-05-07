@@ -24,19 +24,39 @@ io.on('connection', function(socket){
     console.log("Connected. Active Users: ", total_users);
     io.emit('getCount', total_users);
     in_progress_drawings[socket.id] = [];
-    send_current_canvas();
+    send_current_canvas_local();
+    set_undo_button_status();
 
     if (broadcasting){
         console.log(socket.id, ' is requesting to watch');
         io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
     }
 
-    function send_current_canvas (){
+    function send_current_canvas_local (){
         for (var i = 0; i < line_history.length; ++i){
             for (var j = 0; j < line_history[i].length; ++j){
                 socket.emit('othersdrawing', line_history[i][j]);
             }
         }
+    }
+
+    function send_current_canvas_global (){
+        for (var i = 0; i < line_history.length; ++i){
+            for (var j = 0; j < line_history[i].length; ++j){
+                io.emit('othersdrawing', line_history[i][j]);
+            }
+        }
+    }
+
+    function set_undo_button_status (){
+
+        if (!line_history.length){
+            io.emit('Disable_Undo_Button');
+        }
+        else{
+            io.emit('Enable_Undo_Button', line_history.length);
+        }
+
     }
 
     socket.on('othersdrawing', function(data){
@@ -49,11 +69,30 @@ io.on('connection', function(socket){
             line_history.push(in_progress_drawings[socket.id]);
             in_progress_drawings[socket.id] = [];
         }
+        
+        set_undo_button_status();
+
+    });
+
+    socket.on('Request_Global_Undo', function(){
+
+        if (Array.isArray(line_history) && line_history.length){
+            line_history.pop();
+            io.emit('clear');
+            send_current_canvas_global();
+        }
+        else{
+            console.error("Line History is Corrupted or Zero");
+        }
+
+        set_undo_button_status();
+
     });
 
 
     socket.on('clear', function(){
         socket.broadcast.emit('clear');
+        io.emit('Disable_Undo_Button');
         line_history = [];
         console.log("Clearing Board!");
     });
@@ -77,7 +116,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('Request_Current_Canvas', function(){
-        send_current_canvas ();
+        send_current_canvas_local ();
     });
 
     function stop_broadcasting(){

@@ -42,7 +42,8 @@
         <div style="position:absolute;top:34.5%;left:93%;width:5px;height:5px;background:white;border:2px solid; border-color: black" id="white7" onclick="getColour(this)"></div>
         <div style="position:absolute;top:34%;left:94%;width:15px;height:15px;background:white;border:2px solid; border-color: black" id="white17" onclick="getColour(this)"></div>
         <div style="position:absolute;top:33.5%;left:95.5%;width:25px;height:25px;background:white;border:2px solid; border-color: black" id="white27" onclick="getColour(this)"></div>
-        <div style="position:absolute;top:40%;left:92%;" id = "total_users">Total Drawers: 0</div>
+        <input type="button" value="Global Undo (0)" id="GlobalUndo" size="23" onclick="request_global_undo()" style="position:absolute;top:38%;right:2.5%;" disabled>
+        <div style="position:absolute;top:45%;right:2.5%;" id = "total_users">Total Drawers: 0</div>
         <input type="button" value="save" id="save" size="30" onclick="save()" style="position:absolute;top:55%;right:6%;">
         <input type="button" value="clear" id="clear" size="23" onclick="erase()" style="position:absolute;top:55%;right:2.5%;">
         <input type="button" value="Stream!" id="Stream" size="23" onclick="start_streaming()" style="position:absolute;top:60%;right:7%;">

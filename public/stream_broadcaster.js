@@ -17,8 +17,8 @@ async function start_streaming() {
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
       stream_window.srcObject = stream;
       document.querySelector('#Stream').disabled = true;
-      document.querySelector('#StopStream').disabled = false;
       socket.emit('Broadcasting');
+      document.querySelector('#StopStream').disabled = false;
   } catch (err) {
       console.error(err);
   }

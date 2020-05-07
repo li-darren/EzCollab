@@ -44,10 +44,25 @@ socket.on('othersdrawing', drawOthers);
 
 socket.on('clear', function(){
     c.clearRect(0, 0, canvas.width, canvas.height);
+    document.querySelector('#GlobalUndo').disabled = true; //socket will also disable undo button
+});
+
+socket.on('Disable_Undo_Button', function(){
+    document.querySelector('#GlobalUndo').disabled = true;
+    document.querySelector('#GlobalUndo').value = "Global Undo ".concat("(0)");
+});
+
+socket.on('Enable_Undo_Button', function(num_undos){
+    document.querySelector('#GlobalUndo').disabled = false;
+    document.querySelector('#GlobalUndo').value = "Global Undo ".concat("(", num_undos, ")");
 });
 
 function release_mouse(){
     socket.emit('Release_Mouse');
+}
+
+function request_global_undo(){
+    socket.emit('Request_Global_Undo');
 }
 
 function drawOthers(data){
