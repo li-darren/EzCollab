@@ -119,7 +119,11 @@ function stop_stream(){
   document.querySelector('#StopStream').disabled = true;
   socket.emit('Stop_Broadcasting');
   if (stream_window.srcObject){
-    stream_window.srcObject.getTracks().forEach((track) => stream_window.srcObject.removeTrack(track));
+    let stream = stream_window.srcObject;
+    stream.getTracks().forEach((track) => {
+      track.stop();
+      stream.removeTrack(track);
+    });
   }
   stream_window.srcObject = null;
   broadcaster_free_resources();
