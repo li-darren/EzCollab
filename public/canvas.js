@@ -18,7 +18,6 @@ var pos = { x: 0, y: 0 };
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
 document.addEventListener('mouseenter', setPosition);
-
 document.addEventListener('touchstart', function(e){
     setPositionTablet(e);
     e.preventDefault();

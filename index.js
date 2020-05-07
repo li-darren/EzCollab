@@ -52,16 +52,18 @@ io.on('connection', function(socket){
             stop_broadcasting();
         }
         else{
-            io.to(broadcaster).emit('Watcher_Disconnect', socket.id); //tell broadcaster which watcher disconnected to free resources
+            if (broadcaster){
+                io.to(broadcaster).emit('Watcher_Disconnect', socket.id); //tell broadcaster which watcher disconnected to free resources
+            }
         }
 
     });
 
     function stop_broadcasting(){
+        console.log('Stopping Broadcast');
         broadcaster = null;
         broadcasting = false;
         socket.broadcast.emit('Stop_Broadcasting');
-        console.log('Stopping Broadcast');
     }
 
 

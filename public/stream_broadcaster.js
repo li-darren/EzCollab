@@ -116,13 +116,13 @@ function take_screenshot(){ //to do
 }
 
 function stop_stream(){
+  console.log("Stopping Stream");
   document.querySelector('#Stream').disabled = false;
   document.querySelector('#StopStream').disabled = true;
-  console.log("Stopping Stream");
+  socket.emit('Stop_Broadcasting');
   if (stream_window.srcObject){
     stream_window.srcObject.getTracks().forEach((track) => stream_window.srcObject.removeTrack(track));
   }
-  broadcaster_free_resources();
   stream_window.srcObject = null;
-  socket.emit('Stop_Broadcasting');
+  broadcaster_free_resources();
 }

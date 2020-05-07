@@ -79,11 +79,10 @@ socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
 
 socket.on('Stop_Broadcasting', async () => {
 
+  stream_window.srcObject = null;
   document.querySelector('#Stream').disabled = false;
   document.querySelector('#StopStream').disabled = true;
   watcher_free_resources();
-  stream_window.srcObject = null;
-  //TODO: code to reenable stream buttom
 
 });
 
@@ -94,8 +93,10 @@ window.onbeforeunload = function (e){
 };
 
 function watcher_free_resources(){
-  
-  peerConnection.close();
-  delete peerConnection;
 
+  if(peerConnection){
+    peerConnection.close();
+    delete peerConnection;
+  }
+  
 }
