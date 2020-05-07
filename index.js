@@ -12,6 +12,8 @@ app.use(express.static('public'));
 
 var line_history = [];
 
+var in_progress_drawings = {};
+
 var broadcaster;
 let broadcasting = false;
 
@@ -21,23 +23,37 @@ io.on('connection', function(socket){
     var total_users = io.engine.clientsCount;
     console.log("Connected. Active Users: ", total_users);
     io.emit('getCount', total_users);
+    in_progress_drawings[socket.id] = [];
+    send_current_canvas();
 
     if (broadcasting){
         console.log(socket.id, ' is requesting to watch');
         io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
     }
 
-    for (var i in line_history){
-        socket.emit('othersdrawing', line_history[i]);
+    function send_current_canvas (){
+        for (var i = 0; i < line_history.length; ++i){
+            for (var j = 0; j < line_history[i].length; ++j){
+                socket.emit('othersdrawing', line_history[i][j]);
+            }
+        }
     }
 
     socket.on('othersdrawing', function(data){
-        line_history.push(data);
+        in_progress_drawings[socket.id].push(data);
         socket.broadcast.emit('othersdrawing', data);   
     });
 
+    socket.on('Release_Mouse', function(){
+        if (Array.isArray(in_progress_drawings[socket.id]) && in_progress_drawings[socket.id].length){
+            line_history.push(in_progress_drawings[socket.id]);
+            in_progress_drawings[socket.id] = [];
+        }
+    });
+
+
     socket.on('clear', function(){
-        socket.broadcast.emit('clear')
+        socket.broadcast.emit('clear');
         line_history = [];
         console.log("Clearing Board!");
     });
@@ -46,6 +62,7 @@ io.on('connection', function(socket){
         socket.removeAllListeners();
         console.log("Disconnected. Active Users: ", io.engine.clientsCount - 1);
         io.emit('getCount', io.engine.clientsCount - 1);
+        delete in_progress_drawings[socket.id];
         //specific watcher/broadcaster disconnected happened in seperate code
 
         if (socket.id == broadcaster){
@@ -59,13 +76,16 @@ io.on('connection', function(socket){
 
     });
 
+    socket.on('Request_Current_Canvas', function(){
+        send_current_canvas ();
+    });
+
     function stop_broadcasting(){
         console.log('Stopping Broadcast');
         broadcaster = null;
         broadcasting = false;
         socket.broadcast.emit('Stop_Broadcasting');
     }
-
 
     socket.on('Stop_Broadcasting', function(){
         stop_broadcasting();

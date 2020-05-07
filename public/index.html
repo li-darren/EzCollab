@@ -24,6 +24,7 @@
 </head>
 <body>
         <video class = "video" id="video" src="testmp41.mp4" autoplay muted loop playsinline></video>
+        <canvas style = "position:absolute;top:0; left:0;"></canvas>
         <div style="position:absolute;top:12%;left:93%;">Choose Color</div>
         <div class = "colorbuttons" id="green" onclick="getColour(this)"></div>
         <div class = "colorbuttons" id="blue" onclick="getColour(this)"></div>
@@ -47,7 +48,6 @@
         <input type="button" value="Stream!" id="Stream" size="23" onclick="start_streaming()" style="position:absolute;top:60%;right:7%;">
         <input type="button" value="Stop Stream!!" id="StopStream" size="23" onclick="stop_stream()" style="position:absolute;top:60%;right:1%;" disabled>
         <input type="button" value="Take Screenshot to Collab!" id="Screenshot" size="23" onclick="take_screenshot()" style="position:absolute;top:70%;right:1%;">
-        <canvas style = "position:absolute;top:0; left:0;"></canvas>
         <script>
             console.log("Attempting to Connect");
             // var socket = io.connect("http://localhost:5000");

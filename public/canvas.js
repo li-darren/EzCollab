@@ -2,6 +2,7 @@ var canvas = document.querySelector('canvas');
 const stream_window = document.querySelector('video');
 const video_container = document.getElementsByClassName("video-container")[0];
 
+
 var c = canvas.getContext('2d');
 
 
@@ -10,14 +11,23 @@ var colour = "black";
 var linewidth = 7;
 var eraserwidth = 7;
 var brushwidth = 7;
-
+var can_draw = true;
 resize();
 
 var pos = { x: 0, y: 0 };
 
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
-// document.addEventListener('mouseenter', setPosition);
+
+canvas.addEventListener('mouseover', function(){
+    can_draw = true;
+});
+canvas.addEventListener('mouseout', function(){
+    can_draw = false;
+});
+
+document.addEventListener('mouseup', release_mouse);
+document.addEventListener('mouseenter', setPosition);
 document.addEventListener('touchstart', function(e){
     setPositionTablet(e);
     e.preventDefault();
@@ -36,6 +46,9 @@ socket.on('clear', function(){
     c.clearRect(0, 0, canvas.width, canvas.height);
 });
 
+function release_mouse(){
+    socket.emit('Release_Mouse');
+}
 
 function drawOthers(data){
 
@@ -67,7 +80,7 @@ function drawOthers(data){
         c.lineTo(data.new_pos.x * (canvas.width / canvas_ratio_1080p.width), data.new_pos.y * (canvas.height / canvas_ratio_1080p.height));
     
         c.stroke();
-
+        c.closePath();
 
 
         //restore info
@@ -191,10 +204,10 @@ function setBrushWidth(divElement){ //this is for any colour that is not white
 
 
 function setPosition(e) {
-    if (e.clientX <= canvas.width && e.clientY <= canvas.height){
+    if (can_draw){
         pos.x = e.clientX;
-        pos.y = e.clientY;
-        console.log("x", pos.x, "y", pos.y);
+        pos.y = e.clientY;  
+        // console.log("x", pos.x, "y", pos.y);
     }
 }
 
@@ -255,10 +268,9 @@ function resize(){
 
 function draw(e){
 
-    if (e.buttons != 1){ //this means not left click
+    if (e.buttons != 1 || !can_draw){ //this means not left click or mouse not on canvas
         return;
     }
-
 
     c.beginPath();
 
@@ -342,3 +354,8 @@ function draw_tablet(e){
     socket.emit('othersdrawing', data);
     // console.log(data);
 }
+
+window.onresize = function(){
+    resize();
+    socket.emit('Request_Current_Canvas');
+};
