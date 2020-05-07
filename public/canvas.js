@@ -17,7 +17,7 @@ var pos = { x: 0, y: 0 };
 
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
-document.addEventListener('mouseenter', setPosition);
+// document.addEventListener('mouseenter', setPosition);
 document.addEventListener('touchstart', function(e){
     setPositionTablet(e);
     e.preventDefault();
@@ -191,8 +191,11 @@ function setBrushWidth(divElement){ //this is for any colour that is not white
 
 
 function setPosition(e) {
-    pos.x = e.clientX;
-    pos.y = e.clientY;
+    if (e.clientX <= canvas.width && e.clientY <= canvas.height){
+        pos.x = e.clientX;
+        pos.y = e.clientY;
+        console.log("x", pos.x, "y", pos.y);
+    }
 }
 
 function setPositionTablet(e) {

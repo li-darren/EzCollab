@@ -19,8 +19,6 @@ async function start_streaming() {
       document.querySelector('#Stream').disabled = true;
       document.querySelector('#StopStream').disabled = false;
       socket.emit('Broadcasting');
-      
-
   } catch (err) {
       console.error(err);
   }
