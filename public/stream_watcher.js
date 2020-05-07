@@ -32,8 +32,7 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
     if (!stream_window.srcObject){
       stream_window.srcObject = peerConnection.getRemoteStreams()[0];
     }
-
-    
+  
 
     // var receivers = peerConnection.getReceivers();
     // const media_stream = new MediaStream();
@@ -56,6 +55,8 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 socket.on('Broadcasting', async () => {
   document.querySelector('#Stream').disabled = true;
   document.querySelector('#StopStream').disabled = true;
+  document.querySelector('#FreezeStream').disabled = false;
+  document.querySelector('#UnFreeze').disabled = true;
   socket.emit('Watcher_Request');
 });
 
@@ -80,8 +81,11 @@ socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
 socket.on('Stop_Broadcasting', async () => {
 
   stream_window.srcObject = null;
+  canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
   document.querySelector('#Stream').disabled = false;
   document.querySelector('#StopStream').disabled = true;
+  document.querySelector('#FreezeStream').disabled = true;
+  document.querySelector('#UnFreeze').disabled = true;
   watcher_free_resources();
 
 });
@@ -99,4 +103,32 @@ function watcher_free_resources(){
     delete peerConnection;
   }
   
+}
+
+function freeze_stream(){
+
+  console.log("Freezing Stream");
+
+  try{
+    document.querySelector('#FreezeStream').disabled = true;
+    document.querySelector('#UnFreeze').disabled = false;
+    const track = stream_window.srcObject.getVideoTracks()[0];
+    imageCapture = new ImageCapture(track);
+
+    imageCapture.grabFrame()
+    .then(imageBitmap => {
+      canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
+    })
+    .catch(error => console.log(error));
+
+  }
+  catch(e){
+    console.log("Unable to freeze frame", e);
+  }
+}
+
+function unfreeze_stream (){
+  document.querySelector('#FreezeStream').disabled = false;
+  document.querySelector('#UnFreeze').disabled = true;
+  canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
 }

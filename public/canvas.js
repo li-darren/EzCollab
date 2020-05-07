@@ -1,7 +1,6 @@
-var canvas = document.querySelector('canvas');
-const stream_window = document.querySelector('video');
-const video_container = document.getElementsByClassName("video-container")[0];
-
+var canvas = document.querySelector('#canvas_draw');
+var canvas_img = document.querySelector('#canvas_img');
+const stream_window = document.querySelector('#video');
 
 var c = canvas.getContext('2d');
 
@@ -261,6 +260,9 @@ function resize(){
 
     canvas.width = width;
     canvas.height = height;
+    
+    canvas_img.width = width;
+    canvas_img.height = height;
 
 
 
@@ -269,16 +271,12 @@ function resize(){
     var height_string = "".concat(height, "px");
 
 
-    // video_container.style.width = width_string;
-    // video_container.style.height = height_string;
     stream_window.style.width = width_string;
     stream_window.style.height = height_string;
 
     console.log("video width", stream_window.style.width);
     console.log("video height", stream_window.style.height);
 
-    // stream_window.setAttribute("width", width);
-    // stream_window.setAttribute("height", "auto");
 }
 
 function draw(e){

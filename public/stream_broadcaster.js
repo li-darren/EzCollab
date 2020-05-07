@@ -17,8 +17,10 @@ async function start_streaming() {
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
       stream_window.srcObject = stream;
       document.querySelector('#Stream').disabled = true;
-      socket.emit('Broadcasting');
       document.querySelector('#StopStream').disabled = false;
+      document.querySelector('#FreezeStream').disabled = false;
+      document.querySelector('#UnFreeze').disabled = true;
+      socket.emit('Broadcasting');
   } catch (err) {
       console.error(err);
   }
@@ -108,15 +110,12 @@ function broadcaster_free_resources(){
 
 }
 
-
-function take_screenshot(){ //to do
-
-}
-
 function stop_stream(){
   console.log("Stopping Stream");
   document.querySelector('#Stream').disabled = false;
   document.querySelector('#StopStream').disabled = true;
+  document.querySelector('#FreezeStream').disabled = true;
+  document.querySelector('#UnFreeze').disabled = true;
   socket.emit('Stop_Broadcasting');
   if (stream_window.srcObject){
     let stream = stream_window.srcObject;
@@ -126,5 +125,6 @@ function stop_stream(){
     });
   }
   stream_window.srcObject = null;
+  canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
   broadcaster_free_resources();
 }
