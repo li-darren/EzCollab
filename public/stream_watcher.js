@@ -93,8 +93,11 @@ socket.on('Stop_Broadcasting', async () => {
 socket.on('Freeze_Screen_With_Img', function(img_data_url){
 
   console.log('Freezing Screen with Image');
-  var img = new Image;
+  document.querySelector('#FreezeStream').disabled = true;
+  document.querySelector('#UnFreeze').disabled = false;
 
+  var img = new Image;
+  
   img.onload = function(){
     console.log('Image has arrived');
     canvas_img.getContext("2d").drawImage(img, 0, 0, canvas_img.width, canvas_img.height);
@@ -103,8 +106,6 @@ socket.on('Freeze_Screen_With_Img', function(img_data_url){
   
   img.src = img_data_url;
 
-  document.querySelector('#FreezeStream').disabled = true;
-  document.querySelector('#UnFreeze').disabled = false;
 
 });
 
@@ -154,6 +155,7 @@ function freeze_stream(){
 }
 
 function unfreeze_stream (){
+  console.log("UnFreezing Stream");
   document.querySelector('#FreezeStream').disabled = false;
   document.querySelector('#UnFreeze').disabled = true;
   canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);

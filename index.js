@@ -73,6 +73,9 @@ io.on('connection', function(socket){
     });
 
     socket.on('Release_Mouse', function(){
+
+        console.log("Adding to Line History");
+
         if (Array.isArray(in_progress_drawings[socket.id]) && in_progress_drawings[socket.id].length){
             line_history.push(in_progress_drawings[socket.id]);
             in_progress_drawings[socket.id] = [];
@@ -83,6 +86,8 @@ io.on('connection', function(socket){
     });
 
     socket.on('Request_Global_Undo', function(){
+
+        console.log("Requesting Undo");
 
         if (Array.isArray(line_history) && line_history.length){
             line_history.pop();
@@ -100,11 +105,13 @@ io.on('connection', function(socket){
     socket.on('Freeze_Screen_With_Img', function(img_data_url){
         frozen_screen_url = img_data_url;
         socket.broadcast.emit('Freeze_Screen_With_Img', img_data_url);
+        console.log("Freezing Screen");
     });
 
     socket.on('UnFreeze_Screen_Img', function(){
         frozen_screen_url = "";
         socket.broadcast.emit('UnFreeze_Screen_Img');
+        console.log("UnFreezing Screen");
     });
 
 
