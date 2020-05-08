@@ -121,6 +121,16 @@ function save() {
     result_canvas.height = canvas.height;
     var result_canvas_ctx = result_canvas.getContext("2d");
 
+    function save_drawing_and_download(){
+        result_canvas_ctx.drawImage(canvas, 0, 0);
+        downloadLink.href = result_canvas.toDataURL("image/png", 1);
+        downloadLink.download = 'EzCollabDrawing.png';
+        result_canvas_ctx.clearRect(0, 0, result_canvas_ctx.width, result_canvas_ctx.height);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
 
     if (isCanvasBlank(canvas_img)){
         console.log("Image Canvas is blank");
@@ -130,27 +140,19 @@ function save() {
         imageCapture.grabFrame()
         .then(imageBitmap => {
           canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
-          console.log(canvas_img.toDataURL());
           result_canvas_ctx.drawImage(canvas_img, 0, 0);
           canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
         })
+        .then(save_drawing_and_download)
         .catch(error => console.log(error));
     }
     else{
         console.log("Image Canvas is already Filled");
-        result_canvas_ctx.drawImage(canvas_img, 0, 0);
+        result_canvas_ctx.drawImage(canvas_img, 0, 0)
+        save_drawing_and_download();
     }
 
-    result_canvas_ctx.drawImage(canvas, 0, 0);
 
-    downloadLink.href = result_canvas.toDataURL("image/jpegs", 1);
-    downloadLink.download = 'EzCollabDrawing.png';
-
-    // result_canvas_ctx.clearRect(0, 0, result_canvas_ctx.width, result_canvas_ctx.height);
-
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
 }
 
 function isCanvasBlank(canvas) {
