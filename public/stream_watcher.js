@@ -90,6 +90,30 @@ socket.on('Stop_Broadcasting', async () => {
 
 });
 
+socket.on('Freeze_Screen_With_Img', function(img_data_url){
+
+  console.log('Freezing Screen with Image');
+  var img = new Image;
+
+  img.onload = function(){
+    console.log('Image has arrived');
+    canvas_img.getContext("2d").drawImage(img, 0, 0, canvas_img.width, canvas_img.height);
+
+  };
+  
+  img.src = img_data_url;
+
+  document.querySelector('#FreezeStream').disabled = true;
+  document.querySelector('#UnFreeze').disabled = false;
+
+});
+
+socket.on('UnFreeze_Screen_Img', function(){
+
+  unfreeze_stream();
+
+});
+
 
 window.onbeforeunload = function (e){
   watcher_free_resources();
@@ -118,6 +142,8 @@ function freeze_stream(){
     imageCapture.grabFrame()
     .then(imageBitmap => {
       canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
+      var img_data_url = canvas_img.toDataURL('image/png', 1.0);
+      socket.emit("Freeze_Screen_With_Img", img_data_url);
     })
     .catch(error => console.log(error));
 
@@ -131,4 +157,5 @@ function unfreeze_stream (){
   document.querySelector('#FreezeStream').disabled = false;
   document.querySelector('#UnFreeze').disabled = true;
   canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
+  socket.emit('UnFreeze_Screen_Img');
 }

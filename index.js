@@ -14,22 +14,30 @@ var line_history = [];
 
 var in_progress_drawings = {};
 
-var broadcaster;
-let broadcasting = false;
+var broadcaster = "";
+var frozen_screen_url = "";
 
 io.on('connection', function(socket){
 
-    console.log("Connected Socket!", socket.id);
-    var total_users = io.engine.clientsCount;
-    console.log("Connected. Active Users: ", total_users);
-    io.emit('getCount', total_users);
-    in_progress_drawings[socket.id] = [];
-    send_current_canvas_local();
-    set_undo_button_status();
+    first_connection();
 
-    if (broadcasting){
-        console.log(socket.id, ' is requesting to watch');
-        io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
+    function first_connection (){
+        console.log("Connected Socket!", socket.id);
+        var total_users = io.engine.clientsCount;
+        console.log("Connected. Active Users: ", total_users);
+        io.emit('getCount', total_users);
+        in_progress_drawings[socket.id] = [];
+        send_current_canvas_local();
+        set_undo_button_status();
+
+        if (broadcaster){
+            console.log(socket.id, ' is requesting to watch');
+            io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
+        }
+
+        if (frozen_screen_url){
+            socket.emit('Freeze_Screen_With_Img', img_data_url);
+        }
     }
 
     function send_current_canvas_local (){
@@ -89,6 +97,16 @@ io.on('connection', function(socket){
 
     });
 
+    socket.on('Freeze_Screen_With_Img', function(img_data_url){
+        frozen_screen_url = img_data_url;
+        socket.broadcast.emit('Freeze_Screen_With_Img', img_data_url);
+    });
+
+    socket.on('UnFreeze_Screen_Img', function(){
+        frozen_screen_url = "";
+        socket.broadcast.emit('UnFreeze_Screen_Img');
+    });
+
 
     socket.on('clear', function(){
         socket.broadcast.emit('clear');
@@ -121,8 +139,7 @@ io.on('connection', function(socket){
 
     function stop_broadcasting(){
         console.log('Stopping Broadcast');
-        broadcaster = null;
-        broadcasting = false;
+        broadcaster = "";
         socket.broadcast.emit('Stop_Broadcasting');
     }
 
@@ -134,7 +151,6 @@ io.on('connection', function(socket){
         console.log('Someone is broadcasting!');
         broadcaster = socket.id;
         socket.broadcast.emit('Broadcasting');
-        broadcasting = true;
     });
 
     socket.on('RTC_Connection_Offer', ({socket_to_id, desc}) => {
