@@ -36,7 +36,7 @@ io.on('connection', function(socket){
         }
 
         if (frozen_screen_url){
-            socket.emit('Freeze_Screen_With_Img', img_data_url);
+            socket.emit('Freeze_Screen_With_Img', frozen_screen_url);
         }
     }
 
