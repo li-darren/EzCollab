@@ -108,6 +108,14 @@ io.on('connection', function(socket){
         console.log("Freezing Screen");
     });
 
+    socket.on('Check_If_Screen_Freeze', function(){
+        console.log("Checking if Screen Freeze");
+        if (frozen_screen_url){
+            socket.emit('Freeze_Screen_With_Img', frozen_screen_url);
+            console.log("Freezing Screen on Check to ", socket.id);
+        }
+    });
+
     socket.on('UnFreeze_Screen_Img', function(){
         frozen_screen_url = "";
         socket.broadcast.emit('UnFreeze_Screen_Img');
@@ -147,6 +155,7 @@ io.on('connection', function(socket){
     function stop_broadcasting(){
         console.log('Stopping Broadcast');
         broadcaster = "";
+        frozen_screen_url = "";
         socket.broadcast.emit('Stop_Broadcasting');
     }
 

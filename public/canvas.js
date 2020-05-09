@@ -132,27 +132,38 @@ function save() {
     }
 
 
-    if (isCanvasBlank(canvas_img)){
-        console.log("Image Canvas is blank");
-        const track = stream_window.srcObject.getVideoTracks()[0];
-        imageCapture = new ImageCapture(track);
-    
-        imageCapture.grabFrame()
-        .then(imageBitmap => {
-          canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
-          result_canvas_ctx.drawImage(canvas_img, 0, 0);
-          canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
-        })
-        .then(save_drawing_and_download)
-        .catch(error => console.log(error));
-    }
-    else{
-        console.log("Image Canvas is already Filled");
-        result_canvas_ctx.drawImage(canvas_img, 0, 0)
-        save_drawing_and_download();
-    }
+    var is_canvas_img_blank = isCanvasBlank(canvas_img);
 
-
+    try{
+        if (stream_window.srcObject && is_canvas_img_blank){ //this means streaming and there's no image
+            console.log("Image Canvas is blank");
+            const track = stream_window.srcObject.getVideoTracks()[0];
+            imageCapture = new ImageCapture(track);
+        
+            imageCapture.grabFrame()
+            .then(imageBitmap => {
+            canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
+            result_canvas_ctx.drawImage(canvas_img, 0, 0);
+            canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
+            save_drawing_and_download();
+            })
+            .catch(error => console.log(error));
+        }
+        else if (stream_window.srcObject && !is_canvas_img_blank){//this means that screen is frozen right now...
+            console.log("Image Canvas is already Filled");
+            result_canvas_ctx.drawImage(canvas_img, 0, 0)
+            save_drawing_and_download();
+        }
+        else if (!stream_window.srcObject && is_canvas_img_blank){ //this means that there's no stream going on and no frozen image
+            save_drawing_and_download();
+        }
+        else{
+            console.err("There is a mismatch between freezing and stream that needs to be fixed.");
+        }
+    }
+    catch(e){
+        console.log("There is an error, mismatch with frozen screen and streaming", e);
+    }
 }
 
 function isCanvasBlank(canvas) {
@@ -268,6 +279,8 @@ function setPositionTablet(e) {
 }
 
 function resize(){
+
+    console.log("Resizing...");
     
     width = window.innerWidth * 0.8675925925925926;
     height = window.innerHeight;
@@ -281,28 +294,20 @@ function resize(){
 
     if ((width / height) > (1920/1080)){//this means that the width ratio is larger than the height, aka widescreen
         //then keep height and readjust width
-        console.log("keeping height", window.innerHeight);
         width = height * (1920/1080);
     }
     else{
-        console.log("keeping width", window.innerWidth);
         height = width / (1920/1080);
     }
 
-    // width = width;
-    // height = height; //this is done to remove the ever so slightly small scroll bar
-
-    console.log('canvas width: ', width);
-    console.log('canvas height: ', height);
+    // console.log('canvas width: ', width);
+    // console.log('canvas height: ', height);
 
     canvas.width = width;
     canvas.height = height;
     
     canvas_img.width = width;
     canvas_img.height = height;
-
-
-
 
     var width_string = "".concat(width, "px");
     var height_string = "".concat(height, "px");
@@ -311,8 +316,6 @@ function resize(){
     stream_window.style.width = width_string;
     stream_window.style.height = height_string;
 
-    console.log("video width", stream_window.style.width);
-    console.log("video height", stream_window.style.height);
 
 }
 
@@ -408,4 +411,5 @@ function draw_tablet(e){
 window.onresize = function(){
     resize();
     socket.emit('Request_Current_Canvas');
+    socket.emit('Check_If_Screen_Freeze');
 };
