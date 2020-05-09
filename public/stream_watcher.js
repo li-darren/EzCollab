@@ -111,7 +111,7 @@ socket.on('Freeze_Screen_With_Img', function(img_data_url){
 
 socket.on('UnFreeze_Screen_Img', function(){
 
-  unfreeze_stream();
+  unfreeze_stream_local();
 
 });
 
@@ -155,9 +155,13 @@ function freeze_stream(){
 }
 
 function unfreeze_stream (){
+  unfreeze_stream_local();
+  socket.emit('UnFreeze_Screen_Img');
+}
+
+function unfreeze_stream_local(){
   console.log("UnFreezing Stream");
   document.querySelector('#FreezeStream').disabled = false;
   document.querySelector('#UnFreeze').disabled = true;
   canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
-  socket.emit('UnFreeze_Screen_Img');
 }
