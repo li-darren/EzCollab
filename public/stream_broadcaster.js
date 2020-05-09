@@ -18,8 +18,7 @@ async function start_streaming() {
       stream_window.srcObject = stream;
       document.querySelector('#Stream').disabled = true;
       document.querySelector('#StopStream').disabled = false;
-      document.querySelector('#FreezeStream').disabled = false;
-      document.querySelector('#UnFreeze').disabled = true;
+      set_freeze_unfreeze_buttons ({freeze: false, unfreeze: true});
       socket.emit('Broadcasting');
   } catch (err) {
       console.error(err);
@@ -114,8 +113,8 @@ function stop_stream(){
   console.log("Stopping Stream");
   document.querySelector('#Stream').disabled = false;
   document.querySelector('#StopStream').disabled = true;
-  document.querySelector('#FreezeStream').disabled = true;
-  document.querySelector('#UnFreeze').disabled = true;
+  set_freeze_unfreeze_buttons ({freeze: true, unfreeze:true});
+
   socket.emit('Stop_Broadcasting');
   if (stream_window.srcObject){
     let stream = stream_window.srcObject;
@@ -127,4 +126,11 @@ function stop_stream(){
   stream_window.srcObject = null;
   canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
   broadcaster_free_resources();
+}
+
+function set_freeze_unfreeze_buttons ({freeze, unfreeze}){
+
+  document.querySelector('#FreezeStream').disabled = freeze;
+  document.querySelector('#UnFreeze').disabled = unfreeze;
+
 }

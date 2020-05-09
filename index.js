@@ -33,10 +33,12 @@ io.on('connection', function(socket){
         if (broadcaster){
             console.log(socket.id, ' is requesting to watch');
             io.to(broadcaster).emit('Watcher_Request', {socket_from_id: socket.id});
+            socket.emit('Set_Freeze_UnFreeze_Buttons', ({freeze: false, unfreeze: true}));
         }
 
         if (frozen_screen_url){
             socket.emit('Freeze_Screen_With_Img', frozen_screen_url);
+            socket.emit('Set_Freeze_UnFreeze_Buttons', ({freeze: true, unfreeze: false}));
         }
     }
 

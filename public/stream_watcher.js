@@ -55,8 +55,7 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 socket.on('Broadcasting', async () => {
   document.querySelector('#Stream').disabled = true;
   document.querySelector('#StopStream').disabled = true;
-  document.querySelector('#FreezeStream').disabled = false;
-  document.querySelector('#UnFreeze').disabled = true;
+  set_freeze_unfreeze_buttons({freeze: false, unfreeze: true});
   socket.emit('Watcher_Request');
 });
 
@@ -84,8 +83,7 @@ socket.on('Stop_Broadcasting', async () => {
   canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
   document.querySelector('#Stream').disabled = false;
   document.querySelector('#StopStream').disabled = true;
-  document.querySelector('#FreezeStream').disabled = true;
-  document.querySelector('#UnFreeze').disabled = true;
+  set_freeze_unfreeze_buttons({freeze: true, unfreeze: true});
   watcher_free_resources();
 
 });
@@ -93,8 +91,7 @@ socket.on('Stop_Broadcasting', async () => {
 socket.on('Freeze_Screen_With_Img', function(img_data_url){
 
   console.log('Freezing Screen with Image');
-  document.querySelector('#FreezeStream').disabled = true;
-  document.querySelector('#UnFreeze').disabled = false;
+  set_freeze_unfreeze_buttons({freeze: true, unfreeze: false});
 
   var img = new Image;
   
@@ -135,8 +132,7 @@ function freeze_stream(){
   console.log("Freezing Stream");
 
   try{
-    document.querySelector('#FreezeStream').disabled = true;
-    document.querySelector('#UnFreeze').disabled = false;
+    set_freeze_unfreeze_buttons({freeze: true, unfreeze: false});
     const track = stream_window.srcObject.getVideoTracks()[0];
     imageCapture = new ImageCapture(track);
 
@@ -161,7 +157,19 @@ function unfreeze_stream (){
 
 function unfreeze_stream_local(){
   console.log("UnFreezing Stream");
-  document.querySelector('#FreezeStream').disabled = false;
-  document.querySelector('#UnFreeze').disabled = true;
+  set_freeze_unfreeze_buttons({freeze: false, unfreeze: true});
   canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
 }
+
+function set_freeze_unfreeze_buttons ({freeze, unfreeze}){
+
+  document.querySelector('#FreezeStream').disabled = freeze;
+  document.querySelector('#UnFreeze').disabled = unfreeze;
+
+}
+
+socket.on('Set_Freeze_UnFreeze_Buttons', function ({freeze, unfreeze}) {
+
+  set_freeze_unfreeze_buttons ({freeze: freeze, unfreeze: unfreeze});
+
+});
