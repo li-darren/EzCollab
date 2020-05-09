@@ -122,7 +122,7 @@ function save() {
     var result_canvas_ctx = result_canvas.getContext("2d");
 
     function save_drawing_and_download(){
-        result_canvas_ctx.drawImage(canvas, 0, 0);
+        result_canvas_ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, result_canvas.width, result_canvas.height);
         downloadLink.href = result_canvas.toDataURL("image/png", 1);
         downloadLink.download = 'EzCollabDrawing.png';
         result_canvas_ctx.clearRect(0, 0, result_canvas_ctx.width, result_canvas_ctx.height);
@@ -142,8 +142,8 @@ function save() {
         
             imageCapture.grabFrame()
             .then(imageBitmap => {
-            canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
-            result_canvas_ctx.drawImage(canvas_img, 0, 0);
+            canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, canvas_img.width, canvas_img.height);
+            result_canvas_ctx.drawImage(canvas_img, 0, 0, canvas_img.width, canvas_img.height, 0, 0, result_canvas.width, result_canvas.height);
             canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
             save_drawing_and_download();
             })
@@ -151,7 +151,7 @@ function save() {
         }
         else if (stream_window.srcObject && !is_canvas_img_blank){//this means that screen is frozen right now...
             console.log("Image Canvas is already Filled");
-            result_canvas_ctx.drawImage(canvas_img, 0, 0)
+            result_canvas_ctx.drawImage(canvas_img, 0, 0, canvas_img.width, canvas_img.height, 0, 0, result_canvas.width, result_canvas.height);
             save_drawing_and_download();
         }
         else if (!stream_window.srcObject && is_canvas_img_blank){ //this means that there's no stream going on and no frozen image

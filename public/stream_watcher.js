@@ -100,7 +100,7 @@ socket.on('Freeze_Screen_With_Img', function(img_data_url){
   
   img.onload = function(){
     console.log('Image has arrived');
-    canvas_img.getContext("2d").drawImage(img, 0, 0, canvas_img.width, canvas_img.height);
+    canvas_img.getContext("2d").drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas_img.width, canvas_img.height);
 
   };
   
@@ -142,7 +142,7 @@ function freeze_stream(){
 
     imageCapture.grabFrame()
     .then(imageBitmap => {
-      canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, canvas_img.width, canvas_img.height);
+      canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, canvas_img.width, canvas_img.height);
       var img_data_url = canvas_img.toDataURL('image/png', 1.0);
       socket.emit("Freeze_Screen_With_Img", img_data_url);
     })
