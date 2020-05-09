@@ -15,6 +15,12 @@ async function start_streaming() {
   try {
       console.log("Starting Stream!");
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+
+      stream.getVideoTracks()[0].onended = function (){
+        console.log("Stream is Stopping");
+        stop_stream();
+      }
+
       stream_window.srcObject = stream;
       document.querySelector('#Stream').disabled = true;
       document.querySelector('#StopStream').disabled = false;
