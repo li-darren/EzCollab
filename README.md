@@ -2,5 +2,4 @@
 
 [ezcollab.lidarren.me](https://ezcollab.lidarren.me "EzCollab")
 
-Stream your screen and work together to collaborate!
-
+EzCollab is a collaborative tool where you can share your screen with others and draw on what you see!
