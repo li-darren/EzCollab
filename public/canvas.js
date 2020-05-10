@@ -117,8 +117,8 @@ function erase() {
 function save() {
     var downloadLink = document.createElement('a');
     var result_canvas = document.createElement("CANVAS");
-    result_canvas.width = canvas.width;
-    result_canvas.height = canvas.height;
+    result_canvas.width = 1920;
+    result_canvas.height = 1080;
     var result_canvas_ctx = result_canvas.getContext("2d");
 
     function save_drawing_and_download(){
@@ -142,17 +142,20 @@ function save() {
         
             imageCapture.grabFrame()
             .then(imageBitmap => {
-            canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, canvas_img.width, canvas_img.height);
-            result_canvas_ctx.drawImage(canvas_img, 0, 0, canvas_img.width, canvas_img.height, 0, 0, result_canvas.width, result_canvas.height);
-            canvas_img.getContext("2d").clearRect(0, 0, canvas_img.width, canvas_img.height);
-            save_drawing_and_download();
+                result_canvas_ctx.drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, result_canvas.width, result_canvas.height);
+                save_drawing_and_download();
             })
             .catch(error => console.log(error));
         }
         else if (stream_window.srcObject && !is_canvas_img_blank){//this means that screen is frozen right now...
             console.log("Image Canvas is already Filled");
-            result_canvas_ctx.drawImage(canvas_img, 0, 0, canvas_img.width, canvas_img.height, 0, 0, result_canvas.width, result_canvas.height);
-            save_drawing_and_download();
+            var img = new Image;
+            img.onload = function(){
+                console.log('Drawing Image onto Result Canvas');
+                result_canvas_ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, result_canvas.width, result_canvas.height);
+                save_drawing_and_download();
+            };
+            img.src = local_frozen_img_url;            
         }
         else if (!stream_window.srcObject && is_canvas_img_blank){ //this means that there's no stream going on and no frozen image
             save_drawing_and_download();

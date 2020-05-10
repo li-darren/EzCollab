@@ -1,5 +1,7 @@
 let peerConnection;
 
+var local_frozen_img_url = "";
+
 socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
   try {
 
@@ -23,7 +25,7 @@ socket.on('RTC_Connection_Offer', async ({socket_from_id, desc}) => {
 
     peerConnection.onicecandidate = (event) => {
       if (event.candidate){
-        console.log("Found Ice Candidate as Watcher", event);
+        console.log("Found Ice Candidate as Watcher");
         socket.emit('RTC_Connection_Candidate_to_Broadcaster', {socket_to_id: socket_from_id, candidate: event.candidate});
       }
     };
@@ -63,7 +65,7 @@ socket.on('RTC_Connection_Candidate_to_Watcher', async (candidate) => {
 
   try{
     if (candidate){
-      console.log("Adding Candidate as Watcher!", candidate);
+      console.log("Adding Candidate as Watcher!");
       await peerConnection.addIceCandidate(candidate);
     }
     else{
@@ -102,7 +104,7 @@ socket.on('Freeze_Screen_With_Img', function(img_data_url){
   };
   
   img.src = img_data_url;
-
+  local_frozen_img_url = img_data_url;
 
 });
 
@@ -131,16 +133,23 @@ function freeze_stream(){
 
   console.log("Freezing Stream");
 
+  var result_canvas = document.createElement("CANVAS");
+  result_canvas.width = 1920;
+  result_canvas.height = 1080;
+  var result_canvas_ctx = result_canvas.getContext("2d");
+
   try{
     set_freeze_unfreeze_buttons({freeze: true, unfreeze: false});
     const track = stream_window.srcObject.getVideoTracks()[0];
     imageCapture = new ImageCapture(track);
 
     imageCapture.grabFrame()
-    .then(imageBitmap => {
-      canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, canvas_img.width, canvas_img.height);
-      var img_data_url = canvas_img.toDataURL('image/png', 1.0);
-      socket.emit("Freeze_Screen_With_Img", img_data_url);
+    .then(imageBitmap => { //get this boy 1920/1080
+        result_canvas_ctx.drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, result_canvas.width, result_canvas.height);
+        local_frozen_img_url = result_canvas.toDataURL('image/png', 1.0);
+        canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, canvas_img.width, canvas_img.height);
+        // console.log(img_data_url);
+        socket.emit("Freeze_Screen_With_Img", local_frozen_img_url);
     })
     .catch(error => console.log(error));
 
