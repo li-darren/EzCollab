@@ -122,6 +122,7 @@ function stop_stream(){
   set_freeze_unfreeze_buttons ({freeze: true, unfreeze:true});
 
   socket.emit('Stop_Broadcasting');
+  
   if (stream_window.srcObject){
     let stream = stream_window.srcObject;
     stream.getTracks().forEach((track) => {

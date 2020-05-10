@@ -148,7 +148,7 @@ function freeze_stream(){
         result_canvas_ctx.drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, result_canvas.width, result_canvas.height);
         local_frozen_img_url = result_canvas.toDataURL('image/png', 1.0);
         canvas_img.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, canvas_img.width, canvas_img.height);
-        // console.log(img_data_url);
+        console.log(local_frozen_img_url);
         socket.emit("Freeze_Screen_With_Img", local_frozen_img_url);
     })
     .catch(error => console.log(error));
