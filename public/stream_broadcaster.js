@@ -3,7 +3,7 @@ const peerConnections = {};
 const displayMediaOptions = {
     audio: false,
     video: {
-        cursor: "always",
+        frameRate: { ideal: 60, max: 60 },
     }
 }
 
