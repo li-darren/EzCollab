@@ -75,4 +75,6 @@ body{
     margin: 0;
     background-color: purple;
     border:none;
+    overscroll-behavior: none 
+
 }
