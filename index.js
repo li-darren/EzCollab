@@ -3,9 +3,11 @@ var app = express ();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
+var fs = require('fs');
 
-
-server.listen(5000, () => console.log('Server running on port 5000'));
+server.listen(5000, () => {
+    console.log('Server running on port 5000');
+});
 
 //Static Files
 app.use(express.static('public'));
@@ -195,5 +197,33 @@ io.on('connection', function(socket){
         console.log("Found Ice Candidate to Watcher");
         io.to(socket_to_id).emit('RTC_Connection_Candidate_to_Watcher', candidate);
     });
+
+    socket.on('Request_Country_Flag', ({socket_id, country_code}) => {
+        
+        var img;
+
+        if (country_code == 'CA'){
+            console.log('Canadian user logged');
+            img = base64_encode ("flags/canadianflag.png");
+        }
+        else if (country_code == 'US'){
+            console.log('US user logged');
+            img = base64_encode ("flags/usflag.png");
+        }
+        else{
+            console.log('Unknown user logged');
+            img = base64_encode ("flags/CountryFlagWrong.png");
+        }
+
+        io.to(socket_id).emit('Update_Country_Flag', img);
+
+    });
+
+    // function to encode file data to base64 encoded string
+    function base64_encode(file) {
+        // read binary data
+        var bitmap = fs.readFileSync(file);
+        return bitmap.toString('base64');
+    }
 
 });

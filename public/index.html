@@ -51,6 +51,10 @@
         <input type="button" value="Stop Stream!!" id="StopStream" size="23" onclick="stop_stream()" style="position:absolute;top:60%;right:1%;" disabled>
         <input type="button" value="Freeze Stream!" id="FreezeStream" size="23" onclick="freeze_stream()" style="position:absolute;top:70%;right:6%;" disabled>
         <input type="button" value="UnFreeze!" id="UnFreeze" size="23" onclick="unfreeze_stream()" style="position:absolute;top:70%;right:1%;" disabled>
+
+        <img id = "CountryFlag" src = "EmptyCountryFlag.png" alt = "CountryFlagWrong.png" style="position:absolute;top:77%;left:89.75%;width:150px;height:100px">
+        <input type="button" value="Generate Flag!" id="GenerateFlagButton" size="23" onclick="sendCountryFlag()" style="position:absolute;top:89%;right:3.5%;">
+
         <script>
             console.log("Attempting to Connect");
             // var socket = io.connect("http://localhost:5000");
@@ -64,8 +68,9 @@
                 console.log("User Connected/Disconnected!");
             });
             
-            </script>
+        </script>
 
+        <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
         <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
         <script src="canvas.js"></script>
         <script src="stream_broadcaster.js"></script>

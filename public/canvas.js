@@ -56,6 +56,17 @@ socket.on('Enable_Undo_Button', function(num_undos){
     document.querySelector('#GlobalUndo').value = "Global Undo ".concat("(", num_undos, ")");
 });
 
+socket.on('Update_Country_Flag', function(imgString){
+    console.log("Updating Country Flag");
+    document.getElementById('CountryFlag').src = "data:image/png;base64, " + imgString;
+});
+
+function sendCountryFlag(){
+    console.log("Requesting Country Flag");
+    var country = geoplugin_countryCode();
+    socket.emit('Request_Country_Flag', {socket_id: socket.id, country_code: country});
+}            
+
 function release_mouse(){
     socket.emit('Release_Mouse');
 }
